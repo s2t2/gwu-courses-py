@@ -1,6 +1,8 @@
 
 import os
 
+from selenium.webdriver.common.by import By
+
 from app import EXPORTS_DIRPATH
 from app.driver import create_driver
 
@@ -27,7 +29,6 @@ class SubjectBrowser:
         self.processed_pages_counter = 0
 
 
-
     @property
     def png_filepath(self):
         return os.path.join(self.exports_dirpath, f"page_{self.page_counter}.png")
@@ -45,31 +46,54 @@ class SubjectBrowser:
 
     @property
     def next_page_link(self):
-        #breakpoint()
-        return None
+        """
+        This is the link we are looking for:
+            <a href="javascript:nextPage()">Next Page &gt;&gt; </a>
+
+        Returns a selenium.webdriver.remote.webelement.WebElement or None
+        """
+        try:
+            return self.driver.find_element(By.PARTIAL_LINK_TEXT, "Next Page")
+        except:
+            return None
+
+    def process_page(self):
+        self.page_counter+=1
+        print("PROCESSING PAGE:", self.page_counter)
+        self.save_screenshot()
+        self.save_page_source()
+        self.processed_pages_counter+=1
 
     def perform(self):
         self.driver = create_driver()
         try:
+            #
+            # PROCESS THE FIRST PAGE
+            #
             self.driver.get(self.base_url)
 
-            self.page_counter+=1
-            self.save_screenshot()
-            self.save_page_source()
-            self.processed_pages_counter+=1
+            #self.page_counter+=1
+            #print("PROCESSING PAGE:", self.page_counter)
+            #self.save_screenshot()
+            #self.save_page_source()
+            #self.processed_pages_counter+=1
+            self.process_page()
 
-            # todo: click the next page link!
-            #next_page_link = None
-            #while next_page_link:
-            #    print("...", "next page")
-            #    next_page_url = "TODO"
-            #    self.driver.get(next_page_url)
-            #    self.page_counter+=1
-            #    self.save_screenshot()
-            #    self.save_page_source()
-            #    self.processed_pages_counter+=1
-            #    next_page_link = self.next_page_link
+            #
+            # PROCESS REMAINING PAGES
+            #
+            next_page_link = self.next_page_link
+            while next_page_link:
+                next_page_link.click()
 
+                #self.page_counter+=1
+                #print("PROCESSING PAGE:", self.page_counter)
+                #self.save_screenshot()
+                #self.save_page_source()
+                #self.processed_pages_counter+=1
+                self.process_page()
+
+                next_page_link = self.next_page_link
 
         except Exception as err:
             print("ERR", err)
