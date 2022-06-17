@@ -2,13 +2,15 @@
 import os
 
 from selenium.webdriver.common.by import By
+from pandas import DataFrame, read_csv
 
 from app import EXPORTS_DIRPATH
 from app.driver import create_driver
+from app.parser import PageParser
 
 CAMPUS_ID = os.getenv("CAMPUS_ID", default="1") # 1: main campus; ... others: vern, online, etc
 TERM_ID = os.getenv("TERM_ID", default="202203") # YYYY ... 01: spring; 02: summer; 03: fall
-SUBJECT_ID = os.getenv("CAMPUS_ID", default="EMSE") # choose your own subject of interest...
+SUBJECT_ID = os.getenv("SUBJECT_ID", default="EMSE") # choose your own subject of interest...
 
 class SubjectBrowser:
     """Browses and downloads all pages for a given subject"""
@@ -64,47 +66,62 @@ class SubjectBrowser:
         self.save_page_source()
         self.processed_pages_counter+=1
 
-    def perform(self):
+    def download_pages(self):
         self.driver = create_driver()
         try:
-            #
-            # PROCESS THE FIRST PAGE
-            #
             self.driver.get(self.base_url)
-
-            #self.page_counter+=1
-            #print("PROCESSING PAGE:", self.page_counter)
-            #self.save_screenshot()
-            #self.save_page_source()
-            #self.processed_pages_counter+=1
             self.process_page()
 
-            #
-            # PROCESS REMAINING PAGES
-            #
             next_page_link = self.next_page_link
             while next_page_link:
                 next_page_link.click()
-
-                #self.page_counter+=1
-                #print("PROCESSING PAGE:", self.page_counter)
-                #self.save_screenshot()
-                #self.save_page_source()
-                #self.processed_pages_counter+=1
                 self.process_page()
 
                 next_page_link = self.next_page_link
-
         except Exception as err:
             print("ERR", err)
 
         self.driver.quit()
-        print("DONE! PROCESSED", self.processed_pages_counter, "PAGE(S)")
+        #print("DONE! PROCESSED", self.processed_pages_counter, "PAGE(S)")
+        print("DONE! PROCESSED", len(self.html_filenames), "PAGE(S)")
 
+
+
+    @property
+    def html_filenames(self):
+        return sorted([filename for filename in os.listdir(self.exports_dirpath) if filename.endswith(".html")])
+
+
+    @property
+    def csv_filepath(self):
+        return os.path.join(self.exports_dirpath, "courses.csv")
+
+    def parse_pages(self):
+        records = []
+        for html_filename in self.html_filenames:
+            html_filepath = os.path.join(self.exports_dirpath, html_filename)
+
+            parser = PageParser(html_filepath)
+            page_records = parser.courses.to_dict("records")
+            records += page_records
+
+        df = DataFrame(records)
+        df.to_csv(self.csv_filepath, index=False)
+        return df
 
 
 if __name__ == "__main__":
 
     browser = SubjectBrowser()
 
-    browser.perform()
+    if not any(browser.html_filenames):
+        print("DOWNLOADING PAGES...")
+        browser.download_pages()
+
+    if os.path.isfile(browser.csv_filepath):
+        courses_df = read_csv(browser.csv_filepath)
+    else:
+        print("PARSING PAGES...")
+        courses_df = browser.parse_pages()
+    print(len(courses_df))
+    print(courses_df.head())

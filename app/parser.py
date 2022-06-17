@@ -55,5 +55,5 @@ class PageParser:
             records.append(record)
 
         df = DataFrame(records)
-        print(df.head())
+        #print(df.head())
         return df
