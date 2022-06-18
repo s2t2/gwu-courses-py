@@ -26,11 +26,20 @@ pip install -r requirements.txt
 
 ## Usage
 
-Instructions TBD
-
+Browse the course catalogue for a give subject, and download a CSV file of the course listings:
 
 ```sh
 python -m app.browser
+
+# TERM_ID="202203" SUBJECT_ID="CSCI" python -m app.browser
+```
+
+> NOTE: this creates a new subdirectory in the "exports" dir corresponding with the subject name, and downloads the files there (e.g. "exports/CSCI/courses.csv")
+
+After doing this for all interested subjects, compile a single file of all courses:
+
+```sh
+python -m app.compiler
 ```
 
 ## Testing

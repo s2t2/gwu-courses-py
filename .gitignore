@@ -7,6 +7,8 @@
 __pycache__
 .pytest-cache
 
+exports/*.csv
+
 exports/*/*.png
 exports/*/*/*.png
 
