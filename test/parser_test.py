@@ -20,7 +20,9 @@ def test_page_parser():
     assert courses.iloc[0].to_dict() == {
         'availability': 'OPEN',
         'crn': '71511',
-        'short_code': 'EMSE 1001',
+        #'short_code': 'EMSE 1001',
+        'subject': 'EMSE',
+        'number': '1001',
         'section': '10',
         'title': 'Introduction to Systems Engineering',
         'credits': '1.00',

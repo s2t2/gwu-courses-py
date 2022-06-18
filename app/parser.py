@@ -35,14 +35,16 @@ class PageParser:
             #vals = [clean_text(cell.text) for cell in cells]
             #> ['OPEN', '71511', 'EMSE1001', '10', 'Introduction to Systems Engineering', '1.00', '', 'TOMP 406', 'F09:35AM - 10:25AM', '08/29/22 - 12/12/22', 'Linked']
 
-            #subj, number = [span.text.strip() for span in cells[2].find_all("span")]
-            short_code = " ".join( [span.text.strip() for span in cells[2].find_all("span")])
+            #short_code = " ".join( [span.text.strip() for span in cells[2].find_all("span")])
+            subject, number = [span.text.strip() for span in cells[2].find_all("span")]
             comments = comments_row.text.strip().replace("\n","").replace("\t","").replace("\xa0\xa0"," ")
 
             record = {
                 "availability": cells[0].text,
                 "crn": cells[1].text,
-                "short_code": short_code,
+                #"short_code": short_code,
+                "subject": subject,
+                "number": number,
                 "section": cells[3].text,
                 "title": cells[4].text,
                 "credits": cells[5].text.strip(), # this can be like "0.00 OR   3.00"
