@@ -26,9 +26,7 @@ class SubjectBrowser:
             os.mkdir(self.exports_dirpath)
 
         self.driver = None
-        #self.page_parser = PageParser()
         self.page_counter = 0
-        self.processed_pages_counter = 0
 
 
     @property
@@ -64,7 +62,6 @@ class SubjectBrowser:
         print("PROCESSING PAGE:", self.page_counter)
         self.save_screenshot()
         self.save_page_source()
-        self.processed_pages_counter+=1
 
     def download_pages(self):
         self.driver = create_driver()
@@ -82,7 +79,6 @@ class SubjectBrowser:
             print("ERR", err)
 
         self.driver.quit()
-        #print("DONE! PROCESSED", self.processed_pages_counter, "PAGE(S)")
         print("DONE! PROCESSED", len(self.html_filenames), "PAGE(S)")
 
 

@@ -48,10 +48,10 @@ class PageParser:
                 "section": cells[3].text,
                 "title": cells[4].text,
                 "credits": cells[5].text.strip(), # this can be like "0.00 OR   3.00"
-                "instructor": cells[6].text,
+                "instructor": cells[6].text.strip(), # can be blank OR "Last, MI" OR "Last, MI; Last, MI"
                 "location": cells[7].text,
                 "time_range": cells[8].text, # FYI: the first char is the day M/T/W/R/F, etc
-                "date_range": cells[9].text,
+                "date_range": cells[9].text, # can be blank OR "T06:10PM - 08:40PM" or "WF11:10AM - 12:25PM" or crazy like "W03:30PM - 06:00PMANDW03:30PM - 06:00PM"
                 "comments": comments
             }
             records.append(record)
