@@ -13,6 +13,17 @@ search_routes = Blueprint("search_routes", __name__)
 #    print("SEARCH FORM...")
 #    return render_template("search_form.html")
 
+def clear_session():
+    # clearing the entire session will remove flash messages as well, so let's be more surgical
+    for k in ["courses", "term_id", "subject_ids", "subject_ids_csv"]:
+        try:
+            del session[k]
+        except KeyError:
+            pass
+
+
+
+
 @search_routes.route("/search", methods=["GET", "POST"])
 def search():
     print("COURSE SEARCH...")
@@ -46,7 +57,11 @@ def search():
         #    }
         #)
 
+        clear_session()
         session["courses"] = courses
+        session["subject_ids"] = sorted(browser.subject_ids)
+        session["subject_ids_csv"] = ", ".join(session["subject_ids"])
+        session["term_id"] = browser.term_id
 
         message=f"Found {len(courses)} matching courses across {len(browser.subject_ids)} subjects."
         flash(message, "success")
