@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask
+from flask_session import Session
 
 from web_app.routes.home_routes import home_routes
 from web_app.routes.search_routes import search_routes
@@ -13,7 +14,11 @@ def create_app(test_config=None):
 
     app = Flask(__name__)
     app.config["SECRET_KEY"] = SECRET_KEY
-    #app.config["TERM_ID"] = TERM_ID
+    # server-side sessions because data is too large to store in client side session:
+    # ... avoid "UserWarning: The 'session' cookie is too large" h/t: https://stackoverflow.com/a/53554226/670433
+    app.config["SESSION_PERMANENT"] = False
+    app.config["SESSION_TYPE"] = "filesystem"
+    Session(app)
 
     app.register_blueprint(home_routes)
     app.register_blueprint(search_routes)

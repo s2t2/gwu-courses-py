@@ -17,3 +17,7 @@ exports/*/*/*.html
 
 exports/*/*.csv
 exports/*/*/*.csv
+
+
+flask_session
+flask_session/*

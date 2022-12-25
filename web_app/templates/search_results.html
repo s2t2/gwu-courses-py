@@ -7,11 +7,11 @@
 
     <h1>Search Results</h1>
 
-    <p>Found {{ courses|length }} matching courses across {{ session["subject_ids"]|length }} subjects.</p>
+    <p>Found {{ courses|length }} matching courses across {{ session["subject_ids"]|length }} subjects ({{ session["subject_ids_csv"] }}):</p>
 
-    <p>Term: {{ session["term_id"] }}</p>
+    <!--p>Term: {{ session["term_id"] }}</p>
     <p>Subjects: {{ session["subject_ids_csv"] }}</p>
-    <p>Courses: {{ courses|length }}</p>
+    <p>Courses: {{ courses|length }}</p-->
 
     <p>
         <a href="/search/results/download" class="btn btn-secondary" role="button">

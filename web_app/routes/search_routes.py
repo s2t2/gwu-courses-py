@@ -38,7 +38,8 @@ def search():
         subject_ids = request_data.get("subject_ids")
 
         browser = MultiSubjectBrowser(term_id=term_id, subject_ids=subject_ids)
-        courses = browser.fetch_all_courses()
+        #courses = browser.fetch_all_courses()
+        courses = browser.fetch_all_courses_threaded() # parallel processing to help avoid timeouts
 
         #message=f"Found {len(courses_df)} matching courses. Download should start shortly. Enjoy."
         #flash(message, "success")
