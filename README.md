@@ -26,6 +26,8 @@ pip install -r requirements.txt
 
 ## Usage
 
+### Version 1
+
 Browse the course catalogue for a give subject, and download a CSV file of the course listings:
 
 ```sh
@@ -40,6 +42,14 @@ After doing this for all interested subjects, compile a single file of all cours
 
 ```sh
 python -m app.compiler
+```
+
+### Version 2
+
+```sh
+python -m app.multisubject
+
+# TERM_ID="202203" SUBJECT_IDS="CSCI, EMSE" python -m app.multisubject
 ```
 
 ## Web App

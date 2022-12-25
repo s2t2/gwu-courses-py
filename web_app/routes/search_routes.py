@@ -3,6 +3,7 @@
 from flask import Blueprint, request, render_template, flash
 
 from app.browser import TERM_ID
+from app.multisubject import csv_to_list #, MultiSubjectBrowser
 
 search_routes = Blueprint("search_routes", __name__)
 
@@ -23,12 +24,15 @@ def search():
     try:
         term_id = request_data.get("term_id") or TERM_ID # app.config["DEFAULT_TERM"]
         subjects_csv = request_data.get("subject_ids") or ""
-        subject_ids = subjects_csv
-        courses = []
+        subject_ids = csv_to_list(subjects_csv)
+
+        browser = MultiSubjectBrowser(term_id=term_id, subject_ids=subject_ids)
+        courses = browser.fetch_all_courses()
+        # todo: trigger CSV file download
 
         message="Found X matching courses. Download should start shortly. Enjoy."
         flash(message, "success")
-        return render_template("search_results.html", message=message)
+        return render_template("search_results.html", message=message, courses=courses)
     except Exception as err:
         print("OOPS", err)
         flash(f"OOPS, {err}. Please check your inputs and try again.", "danger")
