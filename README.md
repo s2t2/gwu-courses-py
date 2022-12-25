@@ -42,6 +42,19 @@ After doing this for all interested subjects, compile a single file of all cours
 python -m app.compiler
 ```
 
+## Web App
+
+Run local webserver (then visit localhost:5000):
+
+```sh
+#FLASK_APP=web_app flask run
+
+
+# flask --app web_app run --debug
+
+flask --app web_app run --debugger
+```
+
 ## Testing
 
 Install test dependencies:

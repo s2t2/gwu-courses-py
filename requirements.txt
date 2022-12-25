@@ -1,9 +1,15 @@
 
+# APP
 
-python-dotenv
+python-dotenv # 0.20.0
 
-selenium
+selenium # 4.2.0
 
-beautifulsoup4
+beautifulsoup4 # 4.11.1
 
-pandas
+pandas # 1.4.2
+
+
+# WEB APP
+
+flask==2.2.2
