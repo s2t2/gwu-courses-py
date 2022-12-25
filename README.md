@@ -54,6 +54,8 @@ python -m app.multisubject
 
 ## Web App
 
+Put the app in headless mode via `HEADLESS_MODE=true` in the ".env" file.
+
 Run local webserver (then visit localhost:5000):
 
 ```sh

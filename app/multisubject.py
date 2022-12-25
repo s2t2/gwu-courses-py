@@ -22,7 +22,14 @@ def csv_to_list(subjects_csv:str) -> list:
 class MultiSubjectBrowser:
 
     def __init__(self, term_id=TERM_ID, subject_ids=["CSCI, EMSE"], campus_ids=[CAMPUS_ID], verbose=True):
+        """
+            Params
+                subject_ids (list or CSV string)
+
+        """
         self.term_id = term_id
+        if isinstance(subject_ids, str):
+            subject_ids = csv_to_list(subject_ids)
         self.subject_ids = subject_ids
         self.campus_ids = campus_ids
 
@@ -33,33 +40,37 @@ class MultiSubjectBrowser:
             print("TERM:", self.term_id)
             print("SUBJECTS:", self.subject_ids)
             print("CAMPUSES:", self.campus_ids)
+            print("--------------")
+
+        self.courses = None
 
 
     def fetch_all_courses(self):
-        records = []
+        self.courses = []
         for subject_id in self.subject_ids:
             for campus_id in self.campus_ids:
-
-                # TODO: in memory processing instead of writing to file
-                #browser = SubjectBrowser(term_id=self.term_id, subject_id=subject_id, campus_id=campus_id)
-                #subject_df = read_csv(browser.csv_filepath)
-                #print(subject_id, len(subject_df))
-                #records += subject_df.to_dict("records")
 
                 browser = BetterBrowser(term_id=self.term_id, subject_id=subject_id, campus_id=campus_id)
                 #browser.fetch_all_courses()
                 browser.process_pages()
                 print(subject_id, len(browser.courses))
-                records += browser.courses
+                self.courses += browser.courses
 
-        return records
+        return self.courses
+
 
 
 if __name__ == "__main__":
 
+    from app import EXPORTS_DIRPATH
+    from pandas import DataFrame
 
     subject_ids = csv_to_list(SUBJECT_IDS)
     browser = MultiSubjectBrowser(subject_ids=subject_ids)
     courses = browser.fetch_all_courses()
 
     print("FETCHED:", len(courses))
+
+    courses_df = DataFrame(courses)
+    print(courses_df)
+    courses_df.to_csv(os.path.join(EXPORTS_DIRPATH, "all_courses_better.csv"))

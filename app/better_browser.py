@@ -32,14 +32,12 @@ class BetterBrowser:
         self.driver = create_driver()
         try:
             self.driver.get(self.base_url)
-            page_results = self.process_page()
-            self.courses += page_results
+            self.courses += self.process_page()
 
             next_page_link = self.next_page_link
             while next_page_link:
                 next_page_link.click()
-                page_results = self.process_page()
-                self.courses += page_results
+                self.courses += self.process_page()
 
                 next_page_link = self.next_page_link
         except Exception as err:
@@ -53,16 +51,10 @@ class BetterBrowser:
     def process_page(self):
         self.page_counter+=1
         print("PROCESSING PAGE:", self.page_counter)
-        #self.save_screenshot()
-        #self.save_page_source()
-
         html_contents = self.driver.page_source
         parser = BetterParser(html_contents)
-        page_results = parser.courses
-
         self.processed_pages_counter+=1
-
-        return page_results
+        return parser.courses
 
 
     @property
@@ -77,17 +69,6 @@ class BetterBrowser:
             return self.driver.find_element(By.PARTIAL_LINK_TEXT, "Next Page")
         except:
             return None
-
-
-
-
-
-
-
-
-
-
-
 
 
 
