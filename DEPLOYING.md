@@ -86,6 +86,8 @@ HEADLESS_MODE=true SUBJECT_IDS="FILM,NRSC, CSCI, EMSE, BADM, ISTM" python -m app
 # then exit
 ```
 
+Once the image has been built, can come back to it like this:
+
 ```sh
 
 docker container ls --all # find all container names and IDs

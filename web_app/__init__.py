@@ -14,10 +14,15 @@ def create_app(test_config=None):
 
     app = Flask(__name__)
     app.config["SECRET_KEY"] = SECRET_KEY
+
+    # https://flask-session.readthedocs.io/en/latest/
     # server-side sessions because data is too large to store in client side session:
     # ... avoid "UserWarning: The 'session' cookie is too large" h/t: https://stackoverflow.com/a/53554226/670433
     app.config["SESSION_PERMANENT"] = False
     app.config["SESSION_TYPE"] = "filesystem"
+    # this produces lots of session files, which might bloat the server, so consider
+    #app.config["SESSION_PERMANENT"] = True
+    #app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30) # False
     Session(app)
 
     app.register_blueprint(home_routes)
