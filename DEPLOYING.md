@@ -37,6 +37,12 @@ Start Command:
     gunicorn "web_app:create_app()"
 
 
-Has environment variables, secret config file creation (can probably be used with "google-credentials.json" file approach),GitHub integration with auto-deploy capabilities. V cool.
+Has environment variables, and secret config file creation (can probably be used with "google-credentials.json" file approach).
+
+Has GitHub integration with auto-deploy capabilities. Can deploy from branch.
 
 Starting with auto deploy for now.
+
+Build is very slow. They say it gets faster if you pay.
+
+No CLI installation required so far.
