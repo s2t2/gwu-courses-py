@@ -21,6 +21,14 @@ def create_driver(headless=HEADLESS_MODE):
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
+
+        # https://stackoverflow.com/questions/67488276/selenium-within-a-docker-container-cant-find-chromedriver
+        #option.add_argument("--disable-gpu")
+        #option.add_argument("--disable-extensions")
+        #option.add_argument("--disable-infobars")
+        #option.add_argument("--start-maximized")
+        #option.add_argument("--disable-notifications")
+
         return webdriver.Chrome(CHROMEDRIVER_PATH, chrome_options=options)
     else:
         # DeprecationWarning: executable_path has been deprecated, please pass in a Service object

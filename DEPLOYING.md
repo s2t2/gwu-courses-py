@@ -46,3 +46,51 @@ Starting with auto deploy for now.
 Build is very slow. They say it gets faster if you pay.
 
 No CLI installation required so far.
+
+Cron Jobs require payment of $1/mo (or perhaps fractional part thereof only when processes are running?)
+
+We are seeing some errors due to old version of Python. Need to specify python version via env var:
+
+    PYTHON_VERSION=3.8.2
+    PYTHON_VERSION=3.10.4
+
+Build is ... so ... slow ...
+
+OK Looks good, but how to install chromedriver though?
+
+Maybe need to use a Docker environment instead of Python 3.
+
+Let's try setting up the proper Docker environment in development first, to get it right. Especially because the build is so slow we can't be experimenting in prod.
+
+### Docker in Development
+
+See "Dockerfile" in root directory of the repo (which needs to be capitalized exactly the same), which is supposed to install chromedriver, as well as python and packages.
+
+Let's create a local image and run it:
+
+```sh
+docker build . -t my_python_chromedriver_image # builds a new docker image
+
+docker run -it my_python_chromedriver_image /bin/bash # starts up a new container of a docker image
+
+# mess around inside the container, to confirm installations:
+which chromedriver
+#> /usr/local/bin/chromedriver
+# OK great it is installed
+pip list
+#> OK great
+
+HEADLESS_MODE=true SUBJECT_IDS="FILM,NRSC, CSCI, EMSE, BADM, ISTM" python -m app.multisubject
+#> great, it works.
+
+# then exit
+```
+
+```sh
+
+docker container ls --all # find all container names and IDs
+
+docker start <container id> # starts a paused docker container
+
+docker attach <container id> # reconnects to a running docker container
+```

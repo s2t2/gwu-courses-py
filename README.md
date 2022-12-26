@@ -46,10 +46,12 @@ python -m app.compiler
 
 ### Version 2
 
+This newer version stores the data in memory, and also leverages threading to speed up the process:
+
 ```sh
 python -m app.multisubject
 
-# TERM_ID="202203" SUBJECT_IDS="CSCI, EMSE" python -m app.multisubject
+# HEADLESS_MODE=true TERM_ID="202203" SUBJECT_IDS="CSCI, EMSE" python -m app.multisubject
 ```
 
 ## Web App
@@ -60,7 +62,6 @@ Run local webserver (then visit localhost:5000):
 
 ```sh
 #FLASK_APP=web_app flask run
-
 
 # flask --app web_app run --debug
 
