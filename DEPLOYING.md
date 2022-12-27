@@ -96,3 +96,47 @@ docker start <container id> # starts a paused docker container
 
 docker attach <container id> # reconnects to a running docker container
 ```
+
+### Build Script
+
+Was able to get docker with chromedriver running locally, but the render build was still failing. Tech support suggests using a build script ("build.sh"):
+
+  + https://render.com/docs/deploy-django#create-a-build-script
+
+See also:
+
+  + https://community.render.com/t/installing-headless-chromium-w-o-docker/5185
+  + https://gist.github.com/BigAlRender/41f4c4d87df3e25770e3db8db728443e
+
+
+Ensure the script is executable:
+
+```sh
+chmod a+x build.sh
+```
+
+### SSH
+
+Render has SSH capabilities, but only for paid plans. It would be easier to SSH onto the server the first time only, to figure out what the build script needs to be, rather than trying lots of options via deployment process.
+
+```sh
+ssh USERNAME@ssh.REGION.render.com
+```
+
+Looks like [RSA keys don't work](https://render.com/docs/ssh-troubleshooting#avoid-rsa-keys), so need to [generate a new key](https://render.com/docs/ssh-generating-keys) and use that:
+
+```sh
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519
+#> update permissions so it will work
+#chmod 400 ~/.ssh/id_ed25519.pub
+#> NOPE
+
+cat ~/.ssh/id_ed25519.pub | pbcopy
+# > then paste into the render settings
+```
+
+```sh
+ssh USERNAME@ssh.REGION.render.com -i ~/.ssh/id_ed25519.pub
+```
+
+There is an issue with the key permissions and/or format. Need to revisit.
