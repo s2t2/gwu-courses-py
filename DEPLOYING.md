@@ -115,6 +115,9 @@ Ensure the script is executable:
 chmod a+x build.sh
 ```
 
+
+Change the build command from "pip install -r requirements.txt" to "./build.sh" to invoke the build script (and add the pip installation command in there to complete the process).
+
 ### SSH
 
 Render has SSH capabilities, but only for paid plans. It would be easier to SSH onto the server the first time only, to figure out what the build script needs to be, rather than trying lots of options via deployment process.
