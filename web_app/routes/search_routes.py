@@ -79,8 +79,13 @@ def search():
 @search_routes.route("/search/results")
 def search_results():
     print("SEARCH RESULTS...")
-    courses = session["courses"]
-    return render_template("search_results.html", courses=courses)
+    try:
+        courses = session["courses"]
+        return render_template("search_results.html", courses=courses)
+    except Exception as err:
+        print("OOPS", err)
+        flash("OOPS, something went wrong. Please search again.")
+        return redirect("/")
 
 
 

@@ -15,7 +15,10 @@ HEADLESS_MODE = bool(os.getenv("HEADLESS_MODE", default="false") == "true")
 
 
 def create_driver(headless=HEADLESS_MODE):
+    # TODO: suppress deprecation warning by passing a Service object instead of options
+    # https://stackoverflow.com/questions/69918148/deprecationwarning-executable-path-has-been-deprecated-please-pass-in-a-servic
     if headless:
+
         options = webdriver.ChromeOptions()
         options.add_argument('--incognito')
         options.add_argument('--headless')

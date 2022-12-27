@@ -27,9 +27,7 @@ def create_app(test_config=None):
     # ... avoid "UserWarning: The 'session' cookie is too large" h/t: https://stackoverflow.com/a/53554226/670433
     app.config["SESSION_PERMANENT"] = False
     app.config["SESSION_TYPE"] = "filesystem"
-    # this produces lots of session files, which might bloat the server, so consider
-    #app.config["SESSION_PERMANENT"] = True
-    #app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30) # False
+    # consider sqlalchemy session storage instead, otherwise need to periodically clear the session files
     Session(app)
 
     # ROUTES
