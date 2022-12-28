@@ -136,7 +136,7 @@ if [[ ! -d $CHROME_PATH ]]; then
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -P /tmp
 
     echo "...Installing Chrome Binary..."
-    dpkg -x /tmp/google-chrome-stable_current_amd64.deb $CHROME_PATH #/opt/render/project/bin/chrome
+    dpkg -x /tmp/google-chrome-stable_current_amd64.deb /opt/render/project/bin/chrome
     # this is a directory with its own "etc", "opt", and "usr" subdir
 
     echo "...Cleaning Up..."
