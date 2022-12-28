@@ -225,3 +225,5 @@ echo $PATH
 Remember to set env var to match:
 
     CHROMEDRIVER_PATH="/opt/render/project/bin/chromedriver"
+
+To overcome "cannot find Chrome binary", also install chrome binary (see "build.sh").

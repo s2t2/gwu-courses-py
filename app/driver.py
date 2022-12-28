@@ -11,6 +11,7 @@ load_dotenv()
 
 # default path for homebrew-installed chromedriver
 CHROMEDRIVER_PATH = os.getenv("CHROMEDRIVER_PATH", default="/usr/local/bin/chromedriver")
+CHROME_BINARY_PATH = os.getenv("CHROME_BINARY_PATH") # set this in production only, to specify path where binary is installed (see "build.sh")
 HEADLESS_MODE = bool(os.getenv("HEADLESS_MODE", default="false") == "true")
 
 
@@ -28,6 +29,11 @@ def create_driver(headless=HEADLESS_MODE):
         #option.add_argument("--disable-infobars")
         #option.add_argument("--start-maximized")
         #option.add_argument("--disable-notifications")
+
+        # help production server find custom installation of chrome binary (see "build.sh"):
+        if CHROME_BINARY_PATH:
+            # https://github.com/SeleniumHQ/selenium/blob/4071737de47f1cec2dfef934f3e18a2e36db20d5/py/selenium/webdriver/chromium/options.py#L34
+            options.binary_location = CHROME_BINARY_PATH
 
         return webdriver.Chrome(CHROMEDRIVER_PATH, chrome_options=options)
     else:
