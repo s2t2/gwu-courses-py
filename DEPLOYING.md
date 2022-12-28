@@ -146,3 +146,82 @@ ssh USERNAME@ssh.REGION.render.com -i ~/.ssh/id_ed25519.pub
 ```
 
 There is an issue with the key permissions and/or format. Need to revisit.
+
+
+
+...
+
+OK here is the process, from start to finish:
+
+```sh
+# GENERATION / SETUP:
+# h/t: https://stackoverflow.com/questions/42863913/key-load-public-invalid-format
+
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519
+
+sudo chmod 600 ~/.ssh/id_ed25519.pub
+
+ssh-add  ~/.ssh/id_ed25519
+
+# LOGIN:
+sudo ssh srv-cekgudhgp3jlcsktih8g@ssh.ohio.render.com -i ~/.ssh/id_ed25519.pub
+```
+
+And we are able to connect via SSH!
+
+### Render Server Filesystem
+
+Default dir is "/opt/render/project/src" where the repo files are.
+
+In "/opt/render/project", we have ".render" (chrome), "python" (Python-3.10.4 installation), "src" (repo), and "nodes" (empty).
+
+In "/opt/render" we have ".bash_profile", ".cache", ".ssh_env", and "project".
+
+In "opt" we have "render" and "render-ssh".
+
+In the home folder we have:
+
+    bin  boot  dev	etc  home  lib	lib64  media  mnt
+    opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+
+We can't make directories in "usr", but we can make them in the "/opt/render/project" folder.
+
+Able to install chromedriver executable with:
+
+```sh
+
+wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+
+unzip /tmp/chromedriver.zip chromedriver -d /opt/render/project/bin
+
+rm /tmp/chromedriver.zip
+```
+
+But we need to also add to path perhaps:
+
+```sh
+export PATH="${PATH}:${CHROMEDRIVER_PATH}"
+```
+
+Original path is:
+
+```sh
+echo $PATH
+
+/opt/render/project/src/.venv/bin:
+/opt/render/project/src/.venv/bin:
+/home/render/.python-poetry/bin:
+/usr/local/sbin:
+/usr/local/bin:
+/usr/sbin:
+/usr/bin:
+/sbin:
+/bin:
+/opt/render-ssh/session/bin
+
+```
+
+
+Remember to set env var to match:
+
+    CHROMEDRIVER_PATH="/opt/render/project/bin/chromedriver"

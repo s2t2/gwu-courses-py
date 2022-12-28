@@ -109,37 +109,87 @@ set -o errexit
 #    echo "...Installing Chromedriver..."
 #    apt-get install -yqq unzip
 #    wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
-#    unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+#    unzip /tmp/chromedriver.zip chromedriver -d /opt/render/project
+#
+#
+#else
+#  echo "...Using Chrome from cache"
+#fi
+#
+
+
+
+#STORAGE_DIR=/opt/render/project/.render
+#
+#if [[ ! -d $STORAGE_DIR/chrome ]]; then
+#
+#    mkdir -p $STORAGE_DIR/chrome
+#    cd $STORAGE_DIR/chrome
+#
+#    echo "...Downloading Chromedriver..."
+#    wget -P ./ https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#
+#    echo "...Installing Chromedriver..."
+#    dpkg -x ./google-chrome-stable_current_amd64.deb $STORAGE_DIR/chrome
+#
+#    rm ./google-chrome-stable_current_amd64.deb
+#    cd $HOME/project/src # Make sure we return to where we were
 #
 #else
 #  echo "...Using Chrome from cache"
 #fi
 
-
-
-
-STORAGE_DIR=/opt/render/project/.render
-
-if [[ ! -d $STORAGE_DIR/chrome ]]; then
-
-    mkdir -p $STORAGE_DIR/chrome
-    cd $STORAGE_DIR/chrome
-
-    echo "...Downloading Chromedriver..."
-    wget -P ./ https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-
-    echo "...Installing Chromedriver..."
-    dpkg -x ./google-chrome-stable_current_amd64.deb $STORAGE_DIR/chrome
-
-    rm ./google-chrome-stable_current_amd64.deb
-    cd $HOME/project/src # Make sure we return to where we were
-
-else
-  echo "...Using Chrome from cache"
-fi
-
 # be sure to add Chromes location to the PATH as part of your Start Command
 # export PATH="${PATH}:/opt/render/project/.render/chrome/opt/google/chrome/"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#CHROMEDRIVER_PATH=/usr/local/bin/chromedriver
+CHROMEDRIVER_PATH=/opt/render/project/bin/chromedriver
+
+if [[ ! -d $CHROMEDRIVER_PATH ]]; then
+
+    echo "...Downloading Chromedriver..."
+    wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+
+    echo "...Installing Chromedriver..."
+    unzip /tmp/chromedriver.zip chromedriver -d /opt/render/project/bin
+
+    echo "...Cleaning Up..."
+    rm /tmp/chromedriver.zip
+
+    echo "...Adding to Path..."
+    export PATH="${PATH}:${CHROMEDRIVER_PATH}"
+    echo $PATH
+else
+  echo "...Detected Existing Chromedriver Installation"
+fi
+
+
+
+
+
+
+
+
+
+
+
 
 
 
