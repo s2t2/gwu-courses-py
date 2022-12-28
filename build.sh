@@ -119,28 +119,6 @@ set -o errexit
 
 
 
-#STORAGE_DIR=/opt/render/project/.render
-#
-#if [[ ! -d $STORAGE_DIR/chrome ]]; then
-#
-#    mkdir -p $STORAGE_DIR/chrome
-#    cd $STORAGE_DIR/chrome
-#
-#    echo "...Downloading Chromedriver..."
-#    wget -P ./ https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-#
-#    echo "...Installing Chromedriver..."
-#    dpkg -x ./google-chrome-stable_current_amd64.deb $STORAGE_DIR/chrome
-#
-#    rm ./google-chrome-stable_current_amd64.deb
-#    cd $HOME/project/src # Make sure we return to where we were
-#
-#else
-#  echo "...Using Chrome from cache"
-#fi
-
-# be sure to add Chromes location to the PATH as part of your Start Command
-# export PATH="${PATH}:/opt/render/project/.render/chrome/opt/google/chrome/"
 
 
 
@@ -149,14 +127,27 @@ set -o errexit
 
 
 
+CHROME_PATH=/opt/render/project/bin/chrome
 
+if [[ ! -d $CHROME_PATH ]]; then
 
+    echo "...Downloading Chrome Binary..."
+    #wget <uri> -P /path/to/folder
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -P /tmp
 
+    echo "...Installing Chrome Binary..."
+    dpkg -x /tmp/google-chrome-stable_current_amd64.deb $CHROME_PATH #/opt/render/project/bin/chrome
+    # this is a directory with its own "etc", "opt", and "usr" subdir
 
+    echo "...Cleaning Up..."
+    rm /tmp/google-chrome-stable_current_amd64.deb
 
+    echo "...Adding to Path..."
+    export PATH="${PATH}:${CHROME_PATH}/opt/google/chrome/"
 
-
-
+else
+  echo "...Detected Existing Chrome Binary"
+fi
 
 
 #CHROMEDRIVER_PATH=/usr/local/bin/chromedriver
