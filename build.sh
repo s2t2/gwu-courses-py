@@ -62,29 +62,85 @@ set -o errexit
 
 
 
-CHROMEDRIVER_PATH=/usr/local/bin/chromedriver
+#CHROMEDRIVER_PATH=/usr/local/bin/chromedriver
+#
+#if [[ ! -d $CHROMEDRIVER_PATH ]]; then
+#
+#    # Download chromedriver
+#    echo "...Downloading Chromedriver..."
+#    #wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+#    #wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add -
+#
+#    #sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+#    # cannot create /etc/apt/sources.list.d/google-chrome.list: Read-only file system
+#    apt-get -y update
+#    #> E: List directory /var/lib/apt/lists/partial is missing. - Acquire (30: Read-only file system)
+#    apt-get install -y google-chrome-stable
+#
+#    # Install chromedriver
+#    echo "...Installing Chromedriver..."
+#    apt-get install -yqq unzip
+#    wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+#    unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+#
+#else
+#  echo "...Using Chrome from cache"
+#fi
 
-if [[ ! -d $CHROMEDRIVER_PATH ]]; then
 
-    # Download chromedriver
+
+
+#CHROMEDRIVER_PATH=/usr/local/bin/chromedriver
+#
+#if [[ ! -d $CHROMEDRIVER_PATH ]]; then
+#
+#    # Download chromedriver
+#    echo "...Downloading Chromedriver..."
+#    #wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+#    #wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add -
+#
+#    #sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+#    # cannot create /etc/apt/sources.list.d/google-chrome.list: Read-only file system
+#    apt-get -y update
+#    #> E: List directory /var/lib/apt/lists/partial is missing. - Acquire (30: Read-only file system)
+#    apt-get install -y google-chrome-stable
+#
+#    # Install chromedriver
+#    echo "...Installing Chromedriver..."
+#    apt-get install -yqq unzip
+#    wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+#    unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+#
+#else
+#  echo "...Using Chrome from cache"
+#fi
+
+
+
+
+STORAGE_DIR=/opt/render/project/.render
+
+if [[ ! -d $STORAGE_DIR/chrome ]]; then
+
+    mkdir -p $STORAGE_DIR/chrome
+    cd $STORAGE_DIR/chrome
+
     echo "...Downloading Chromedriver..."
-    #wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-    #wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add -
+    wget -P ./ https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
-    #sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-    # cannot create /etc/apt/sources.list.d/google-chrome.list: Read-only file system
-    apt-get -y update
-    apt-get install -y google-chrome-stable
-
-    # Install chromedriver
     echo "...Installing Chromedriver..."
-    apt-get install -yqq unzip
-    wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
-    unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+    dpkg -x ./google-chrome-stable_current_amd64.deb $STORAGE_DIR/chrome
+
+    rm ./google-chrome-stable_current_amd64.deb
+    cd $HOME/project/src # Make sure we return to where we were
 
 else
   echo "...Using Chrome from cache"
 fi
+
+# be sure to add Chromes location to the PATH as part of your Start Command
+# export PATH="${PATH}:/opt/render/project/.render/chrome/opt/google/chrome/"
+
 
 
 
