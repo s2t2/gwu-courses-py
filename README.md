@@ -9,6 +9,14 @@ Gives you a CSV file of courses in a given subject, based on your filter criteri
   + Git
   + [Chromedriver](https://github.com/prof-rossetti/intro-to-python/blob/main/notes/clis/chromedriver.md)
 
+Installing Chromedriver on Mac:
+
+```sh
+#brew install chromedriver
+#brew upgrade chromedriver
+#brew install google-chrome
+```
+
 ## Setup
 
 Setup a virtual environment:
@@ -22,6 +30,13 @@ Install packages:
 
 ```sh
 pip install -r requirements.txt
+```
+
+Configure environment variables in ".env" file:
+
+```sh
+# Mac:
+CHROME_BINARY_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 ```
 
 ## Usage

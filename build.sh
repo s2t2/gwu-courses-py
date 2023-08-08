@@ -146,7 +146,7 @@ if [[ ! -d $CHROME_PATH ]]; then
 
     echo "...Adding to Path..."
     #export PATH="${PATH}:${CHROME_PATH}/opt/google/chrome/"
-    export PATH="${PATH}:/opt/render/project/bin/chrome/opt/google/chrome/"
+    export PATH="${PATH}:/opt/render/project/bin/chrome/opt/google/chrome"
 
 else
   echo "...Detected Existing Chrome Binary"

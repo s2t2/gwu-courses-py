@@ -227,3 +227,11 @@ Remember to set env var to match:
     CHROMEDRIVER_PATH="/opt/render/project/bin/chromedriver"
 
 To overcome "cannot find Chrome binary", also install chrome binary (see "build.sh").
+
+Set:
+
+    CHROME_BINARY_PATH="/opt/render/project/bin/chrome/opt/google/chrome"
+
+Need to resolve:
+
+    "Chrome failed to start: exited abnormally. (unknown error: DevToolsActivePort file doesn't exist) (The process started from chrome location /opt/render/project/bin/chrome/opt/google/chrome is no longer running, so ChromeDriver is assuming that Chrome has crashed.)

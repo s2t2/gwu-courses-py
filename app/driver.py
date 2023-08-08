@@ -16,11 +16,18 @@ HEADLESS_MODE = bool(os.getenv("HEADLESS_MODE", default="false") == "true")
 
 
 def create_driver(headless=HEADLESS_MODE):
+    options = webdriver.ChromeOptions()
+
+    # help Mac find where you installed Chrome
+    # help production server find custom installation of chrome binary (see "build.sh"):
+    if CHROME_BINARY_PATH:
+        # https://github.com/SeleniumHQ/selenium/blob/4071737de47f1cec2dfef934f3e18a2e36db20d5/py/selenium/webdriver/chromium/options.py#L34
+        options.binary_location = CHROME_BINARY_PATH
+
     if headless:
-        options = webdriver.ChromeOptions()
+        options.add_argument('--no-sandbox')
         options.add_argument('--incognito')
         options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
 
         # https://stackoverflow.com/questions/67488276/selenium-within-a-docker-container-cant-find-chromedriver
@@ -29,20 +36,17 @@ def create_driver(headless=HEADLESS_MODE):
         #option.add_argument("--disable-infobars")
         #option.add_argument("--start-maximized")
         #option.add_argument("--disable-notifications")
-
-        # help production server find custom installation of chrome binary (see "build.sh"):
-        if CHROME_BINARY_PATH:
-            # https://github.com/SeleniumHQ/selenium/blob/4071737de47f1cec2dfef934f3e18a2e36db20d5/py/selenium/webdriver/chromium/options.py#L34
-            options.binary_location = CHROME_BINARY_PATH
-
-        return webdriver.Chrome(CHROMEDRIVER_PATH, chrome_options=options)
-    else:
+        #return webdriver.Chrome(CHROMEDRIVER_PATH, chrome_options=options)
+    #else:
         # DeprecationWarning: executable_path has been deprecated, please pass in a Service object
         # maybe try:
         # https://selenium-python.readthedocs.io/api.html#module-selenium.webdriver.chrome.service
         # service = webdriver.chrome.service.Service(executable_path=CHROMEDRIVER_PATH)
         # return webdriver.Chrome(service=service)
-        return webdriver.Chrome(CHROMEDRIVER_PATH)
+        #return webdriver.Chrome(CHROMEDRIVER_PATH)
+
+
+    return webdriver.Chrome(CHROMEDRIVER_PATH, chrome_options=options)
 
 
 if __name__ == "__main__":
