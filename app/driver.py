@@ -45,7 +45,6 @@ def create_driver(headless=HEADLESS_MODE):
         # return webdriver.Chrome(service=service)
         #return webdriver.Chrome(CHROMEDRIVER_PATH)
 
-
     return webdriver.Chrome(CHROMEDRIVER_PATH, chrome_options=options)
 
 

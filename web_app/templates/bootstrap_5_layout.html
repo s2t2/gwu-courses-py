@@ -38,10 +38,12 @@
         SITE NAVIGATION & BOOTSTRAP NAV
         https://jinja.palletsprojects.com/en/2.11.x/tricks/
         https://getbootstrap.com/docs/5.0/components/navbar/
+
+        ('/login', 'login', 'Login'),
     -->
     {% set nav_links = [
         ('/about', 'about', 'About'),
-        ('/login', 'login', 'Login'),
+
     ] -%}
 
     {% set active_page = active_page|default('home') -%}
@@ -53,7 +55,7 @@
                     ICONS
                     https://icons.getbootstrap.com/
                 -->
-                <i class="bi-globe" style="font-size: 1.7rem; color: white;"></i>
+                <i class="bi-mortarboard" style="font-size: 1.7rem; color: white;"></i>
                 &nbsp;
                 Colonial Courses
             </a>
