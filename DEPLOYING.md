@@ -1,29 +1,17 @@
 
+# TLDR
 
+Env vars:
 
+```sh
+CHROME_BINARY_PATH="/opt/render/project/bin/chrome/opt/google/chrome"
+CHROMEDRIVER_PATH="/opt/render/project/bin/chromedriver"
+HEADLESS_MODE="true"
+SECRET_KEY="choose your own secret here"
+```
 
-# Deploying to Heroku
+<hr>
 
-JK Heroku is dead.
-
-# Deploying to Digital Ocean
-
-
-https://docs.digitalocean.com/tutorials/app-deploy-flask-app/
-
-
-Oh JK it's not free either.
-
-https://www.digitalocean.com/pricing
-
-
-# Deploying to ...
-
-Cool the Anaconda folks?
-
-https://www.pythonanywhere.com/pricing/
-
-Oh only one app? Maybe education deal...
 
 # Deploying to Render
 

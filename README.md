@@ -35,6 +35,8 @@ pip install -r requirements.txt
 Configure environment variables in ".env" file:
 
 ```sh
+HEADLESS_MODE=true
+
 # Mac:
 CHROME_BINARY_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 ```
@@ -66,7 +68,7 @@ This newer version stores the data in memory, and also leverages threading to sp
 ```sh
 python -m app.multisubject
 
-# HEADLESS_MODE=true TERM_ID="202203" SUBJECT_IDS="CSCI, EMSE" python -m app.multisubject
+# HEADLESS_MODE=true TERM_ID="202303" SUBJECT_IDS="CSCI, EMSE" python -m app.multisubject
 ```
 
 ## Web App
