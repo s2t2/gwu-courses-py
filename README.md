@@ -9,6 +9,8 @@ Gives you a CSV file of courses in a given subject, based on your filter criteri
   + Git
   + [Chromedriver](https://github.com/prof-rossetti/intro-to-python/blob/main/notes/clis/chromedriver.md)
 
+### Chromedriver
+
 Installing Chromedriver (and Chrome Binary) on Mac:
 
 ```sh
@@ -20,6 +22,8 @@ brew install google-chrome
 > NOTE: on Mac you need to also mark chromedriver as a trusted app from the Security and Privacy settings
 
 ## Setup
+
+### Virtual Environment
 
 Setup a virtual environment:
 
@@ -37,6 +41,8 @@ pip install -r requirements.txt
 Configure environment variables in ".env" file:
 
 ```sh
+# this is the ".env" file...
+
 FLASK_APP="web_app"
 HEADLESS_MODE=true
 
