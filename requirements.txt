@@ -23,3 +23,13 @@ Werkzeug==2.2.2
 
 # for production server:
 gunicorn
+
+
+
+
+
+
+
+# TEST
+
+pytest

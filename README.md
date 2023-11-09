@@ -9,13 +9,15 @@ Gives you a CSV file of courses in a given subject, based on your filter criteri
   + Git
   + [Chromedriver](https://github.com/prof-rossetti/intro-to-python/blob/main/notes/clis/chromedriver.md)
 
-Installing Chromedriver on Mac:
+Installing Chromedriver (and Chrome Binary) on Mac:
 
 ```sh
-#brew install chromedriver
-#brew upgrade chromedriver
-#brew install google-chrome
+brew install chromedriver
+brew upgrade chromedriver
+brew install google-chrome
 ```
+
+> NOTE: on Mac you need to also mark chromedriver as a trusted app from the Security and Privacy settings
 
 ## Setup
 
@@ -35,6 +37,7 @@ pip install -r requirements.txt
 Configure environment variables in ".env" file:
 
 ```sh
+FLASK_APP="web_app"
 HEADLESS_MODE=true
 
 # Mac:
@@ -43,7 +46,7 @@ CHROME_BINARY_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome
 
 ## Usage
 
-### Version 1
+### Course Search Version 1 (Deprecated)
 
 Browse the course catalogue for a give subject, and download a CSV file of the course listings:
 
@@ -61,7 +64,7 @@ After doing this for all interested subjects, compile a single file of all cours
 python -m app.compiler
 ```
 
-### Version 2
+### Course Search Version 2
 
 This newer version stores the data in memory, and also leverages threading to speed up the process:
 
@@ -85,18 +88,18 @@ Run local webserver (then visit localhost:5000):
 flask --app web_app run --debugger
 ```
 
+
+
+
+
+
 ## Testing
-
-Install test dependencies:
-
-```sh
-pip install -r requirements-test.txt
-```
 
 Run tests:
 
 ```sh
 pytest
-
 # APP_ENV="CI" pytest
 ```
+
+## [Deploying](/DEPLOYING.md)

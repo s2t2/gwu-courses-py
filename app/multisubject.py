@@ -1,6 +1,5 @@
 import os
 from dotenv import load_dotenv
-from pandas import read_csv
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from app.browser import TERM_ID, CAMPUS_ID #, SubjectBrowser
@@ -10,6 +9,7 @@ load_dotenv()
 
 SUBJECT_IDS = os.getenv("SUBJECT_IDS", default="CSCI, EMSE")
 MAX_WORKERS = 10 # worker per subject, we can set a max limit of ten
+
 
 def csv_to_list(subjects_csv:str) -> list:
     """Param subjects_csv (str) a list of zero or more subject identifiers, delimited by commas (e.g. "CSCI, EMSE")"""
@@ -55,15 +55,7 @@ class MultiSubjectBrowser:
         self.courses = []
         for subject_id in self.subject_ids:
             for campus_id in self.campus_ids:
-
-                #browser = BetterBrowser(term_id=self.term_id, subject_id=subject_id, campus_id=campus_id)
-                ##browser.fetch_all_courses()
-                #browser.process_pages()
-                #print(subject_id, len(browser.courses))
-                #self.courses += browser.courses
-
                 self.courses += self.browse_subject(subject_id, campus_id)
-
         return self.courses
 
     def fetch_all_courses_threaded(self):
