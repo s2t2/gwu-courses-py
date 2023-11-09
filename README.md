@@ -55,7 +55,9 @@ CHROME_BINARY_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome
 
 ## Usage
 
-### Course Search Version 1 (Deprecated)
+### Command Line App
+
+#### Course Search Version 1 (Deprecated)
 
 Browse the course catalogue for a give subject, and download a CSV file of the course listings:
 
@@ -73,7 +75,7 @@ After doing this for all interested subjects, compile a single file of all cours
 python -m app.compiler
 ```
 
-### Course Search Version 2
+#### Course Search Version 2
 
 This newer version stores the data in memory, and also leverages threading to speed up the process:
 
@@ -83,7 +85,7 @@ python -m app.multisubject
 # HEADLESS_MODE=true TERM_ID="202303" SUBJECT_IDS="CSCI, EMSE" python -m app.multisubject
 ```
 
-## Web App
+### Web App
 
 Put the app in headless mode via `HEADLESS_MODE=true` in the ".env" file.
 
