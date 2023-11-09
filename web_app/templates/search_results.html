@@ -1,0 +1,38 @@
+
+
+{% extends "bootstrap_5_layout.html" %}
+{% set active_page = "search_results" %}
+
+{% block content %}
+
+    <h1>Search Results</h1>
+
+    <p>Found {{ courses|length }} matching courses across {{ session["subject_ids"]|length }} subjects ({{ session["subject_ids_csv"] }}):</p>
+
+    <!--p>Term: {{ session["term_id"] }}</p>
+    <p>Subjects: {{ session["subject_ids_csv"] }}</p>
+    <p>Courses: {{ courses|length }}</p-->
+
+    <p>
+        <a href="/search/results/download" class="btn btn-secondary" role="button">
+            <i class="bi-download" style="font-size: 1rem; color: white;"></i>
+                &nbsp;
+                Download CSV
+        </a>
+    </p>
+
+    <!-- todo: if user is logged in
+
+    <p>
+        <a href="/search/results/export" class="btn btn-success" role="button">
+            <i class="bi bi-file-earmark-spreadsheet" style="font-size: 1rem; color: white;"></i>
+                &nbsp;
+                Export to Google Sheets
+        </a>
+    </p>
+
+    -->
+
+    <p class="text-muted"><a href="/">Return to Search</a></p>
+
+{% endblock %}

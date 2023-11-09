@@ -14,6 +14,7 @@ SUBJECT_ID = os.getenv("SUBJECT_ID", default="EMSE") # choose your own subject o
 
 class SubjectBrowser:
     """Browses and downloads all pages for a given subject"""
+
     def __init__(self, subject_id=SUBJECT_ID, term_id=TERM_ID, campus_id=CAMPUS_ID):
         self.campus_id = campus_id
         self.term_id = term_id
@@ -45,6 +46,7 @@ class SubjectBrowser:
     def save_page_source(self):
         with open(self.html_filepath, "w") as html_file:
             html_file.write(self.driver.page_source)
+
 
     @property
     def next_page_link(self):
@@ -86,7 +88,6 @@ class SubjectBrowser:
         print("DONE! PROCESSED", len(self.html_filenames), "PAGE(S)")
 
 
-
     @property
     def html_filenames(self):
         return sorted([filename for filename in os.listdir(self.exports_dirpath) if filename.endswith(".html")])
@@ -95,6 +96,7 @@ class SubjectBrowser:
     @property
     def csv_filepath(self):
         return os.path.join(self.exports_dirpath, "courses.csv")
+
 
     def parse_pages(self):
         records = []

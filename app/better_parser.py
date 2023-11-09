@@ -6,14 +6,13 @@ from pandas import DataFrame
 
 
 
-class PageParser:
-    """Parses a previously downloaded HTML page"""
-    def __init__(self, html_filepath):
-        self.html_filepath = html_filepath
+class BetterParser:
+    """Parses HTML page contents"""
+    def __init__(self, page_contents):
+        self.page_contents = page_contents
 
-        with open(self.html_filepath, 'r') as html_file:
-            contents = html_file.read()
-            self.soup = BeautifulSoup(contents, features="html.parser")
+        self.soup = BeautifulSoup(self.page_contents, features="html.parser")
+
 
     @cached_property
     def courses(self):
@@ -56,6 +55,10 @@ class PageParser:
             }
             records.append(record)
 
-        df = DataFrame(records)
-        #print(df.head())
-        return df
+        return records
+
+
+
+    @property
+    def courses_df(self):
+        return DataFrame(self.courses)

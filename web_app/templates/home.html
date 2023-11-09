@@ -1,0 +1,65 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set active_page = "home" %}
+
+{% block content %}
+
+    <h1>Colonial Courses</h1>
+
+    <p class="lead">What courses are available?</p>
+
+    <div class="container" style="max-width: 350px;">
+        <div class="card card-body bg-light mt-3">
+            <form action="/search" method="POST">
+                <div class="mb-3">
+                    <label for="term-input" class="form-label">Select Term:</label>
+                    <select id="term-input" class="form-select" name="term_id">
+                        <option value="202401" selected>Spring 2024</option>
+                        <option value="202303">Fall 2023</option>
+                        <option value="202301">Spring 2023</option>
+                        <option value="202203">Fall 2022</option>
+                    </select>
+                </div>
+
+                <!--div class="form-check">
+                    <input class="form-check-input" id="check-campus-main" type="checkbox" value="TODO">
+                    <label class="form-check-label" for="check-campus-main" checked>
+                        Main Campus
+                    </label>
+                </div-->
+
+                <div class="mb-3">
+                    <label for="subjects-input" class="form-label">Subject Ids (separated by commas):</label>
+                    <input id="subjects-input" class="form-control" type="text" name="subject_ids" placeholder="CSCI, EMSE" value="CSCI, EMSE">
+                </div>
+
+                <div class="d-grid gap-2">
+                    <!--button type="submit" class="btn btn-success">Download Courses (CSV File)</button-->
+                    <button type="submit" class="btn btn-warning" id="search-button">Search Courses</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js_footer %}
+
+    <script type="text/javascript">
+
+        var searchButton = document.getElementById("search-button")
+        var termInput = document.getElementById("term-input")
+        var subjectsInput = document.getElementById("subjects-input")
+
+        function trackEvent(){
+            var eventData = {
+                "term": termInput.value,
+                "subjects": subjectsInput.value
+            }
+            console.log(eventData)
+            gtag("event", "search", eventData)
+        }
+
+        searchButton.addEventListener("click", trackEvent, false)
+
+    </script>
+{% endblock %}

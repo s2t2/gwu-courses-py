@@ -1,19 +1,23 @@
 
 
 .DS_Store
-
-.env
-
 __pycache__
 .pytest-cache
 
-exports/*.csv
 
+.env
+google-credentials.json
+google-credentials-*.json
+
+
+exports/*.csv
 exports/*/*.png
 exports/*/*/*.png
-
 exports/*/*.html
 exports/*/*/*.html
-
 exports/*/*.csv
 exports/*/*/*.csv
+
+
+flask_session
+flask_session/*
