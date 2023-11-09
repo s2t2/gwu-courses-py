@@ -9,11 +9,20 @@ from web_app.routes.search_routes import search_routes
 load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY", default="super secret")
+<<<<<<< HEAD
+=======
+GA_TRACKER_ID = os.getenv("GA_TRACKER_ID", default="G-OOPS")
+
+>>>>>>> main
 
 def create_app(test_config=None):
 
     app = Flask(__name__)
     app.config["SECRET_KEY"] = SECRET_KEY
+<<<<<<< HEAD
+=======
+    app.config["GA_TRACKER_ID"] = GA_TRACKER_ID
+>>>>>>> main
 
     # https://flask-session.readthedocs.io/en/latest/
     # server-side sessions because data is too large to store in client side session:

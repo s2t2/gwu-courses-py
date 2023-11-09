@@ -41,6 +41,7 @@ Deploying:
 git push heroku main
 #git push heroku web:main
 ```
+<<<<<<< HEAD
 
 
 <hr>
@@ -268,3 +269,5 @@ Set:
 Need to resolve:
 
     "Chrome failed to start: exited abnormally. (unknown error: DevToolsActivePort file doesn't exist) (The process started from chrome location /opt/render/project/bin/chrome/opt/google/chrome is no longer running, so ChromeDriver is assuming that Chrome has crashed.)
+=======
+>>>>>>> main
