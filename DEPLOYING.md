@@ -19,8 +19,8 @@ Set buildpacks, including to facilitate chromedriver installation:
 
 ```sh
 heroku buildpacks:set heroku/python
-heroku buildpacks:set https://github.com/heroku/heroku-buildpack-chromedriver.git
-heroku buildpacks:set https://github.com/heroku/heroku-buildpack-google-chrome.git
+heroku buildpacks:add https://github.com/heroku/heroku-buildpack-chromedriver.git
+heroku buildpacks:add https://github.com/heroku/heroku-buildpack-google-chrome.git
 ```
 
 Config vars:
