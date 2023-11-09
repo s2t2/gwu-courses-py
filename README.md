@@ -2,6 +2,9 @@
 
 Gives you a CSV file of courses in a given subject, based on your filter criteria.
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/331f73a256080399c798/maintainability)](https://codeclimate.com/github/s2t2/gwu-courses-py/maintainability)
+
+![Tests](https://github.com/s2t2/gwu-courses-py/actions/workflows/python-app.yml/badge.svg)
 
 ## Prerequisites
 
