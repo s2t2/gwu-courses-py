@@ -10,6 +10,15 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
+    <!-- Google Analytics  -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config.GA_TRACKER_ID }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ config.GA_TRACKER_ID }}');
+    </script>
+
     <title>Colonial Courses</title>
 </head>
 <body>
@@ -100,6 +109,8 @@
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    {% block js_footer %}
+    {% endblock %}
     <script type="text/javascript">
 
         console.log("Thanks for the page visit!")

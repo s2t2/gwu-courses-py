@@ -31,6 +31,8 @@ heroku config:set SECRET_KEY="my-secret" # use your own secret value
 
 heroku config:set CHROME_BINARY_PATH="/app/.apt/usr/bin/google-chrome"
 heroku config:set CHROMEDRIVER_PATH="/app/.chromedriver/bin/chromedriver"
+
+heroku config:set GA_TRACKER_ID="G-__________" # use your own google analytics
 ```
 
 Deploying:

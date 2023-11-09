@@ -34,9 +34,32 @@
 
                 <div class="d-grid gap-2">
                     <!--button type="submit" class="btn btn-success">Download Courses (CSV File)</button-->
-                    <button type="submit" class="btn btn-warning">Search Courses</button>
+                    <button type="submit" class="btn btn-warning" id="search-button">Search Courses</button>
                 </div>
             </form>
         </div>
     </div>
+{% endblock %}
+
+
+{% block js_footer %}
+
+    <script type="text/javascript">
+
+        var searchButton = document.getElementById("search-button")
+        var termInput = document.getElementById("term-input")
+        var subjectsInput = document.getElementById("subjects-input")
+
+        function trackEvent(){
+            var eventData = {
+                "term": termInput.value,
+                "subjects": subjectsInput.value
+            }
+            console.log(eventData)
+            gtag("event", "search", eventData)
+        }
+
+        searchButton.addEventListener("click", trackEvent, false)
+
+    </script>
 {% endblock %}
