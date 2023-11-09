@@ -26,13 +26,11 @@ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-google-chrome.g
 Config vars:
 
 ```sh
-heroku config:set APP_ENV="production"
 heroku config:set HEADLESS_MODE="true"
 heroku config:set SECRET_KEY="my-secret" # use your own secret value
 
-
-heroku config:set CHROMEDRIVER_PATH="/app/.chromedriver/bin/chromedriver"
 heroku config:set CHROME_BINARY_PATH="/app/.apt/usr/bin/google-chrome"
+heroku config:set CHROMEDRIVER_PATH="/app/.chromedriver/bin/chromedriver"
 ```
 
 Deploying:
