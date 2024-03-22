@@ -1,5 +1,7 @@
 # this is the "web_app/routes/home_routes.py" file...
 
+from datetime import date
+
 from flask import Blueprint, request, render_template
 
 home_routes = Blueprint("home_routes", __name__)
@@ -8,7 +10,8 @@ home_routes = Blueprint("home_routes", __name__)
 @home_routes.route("/home")
 def index():
     print("HOME...")
-    return render_template("home.html")
+    this_year = date.today().strftime("%Y")
+    return render_template("home.html", default_year=this_year)
 
 @home_routes.route("/about")
 def about():
