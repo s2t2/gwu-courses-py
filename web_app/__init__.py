@@ -1,4 +1,5 @@
 import os
+from datetime import date
 from dotenv import load_dotenv
 from flask import Flask
 from flask_session import Session
@@ -17,6 +18,7 @@ def create_app(test_config=None):
     app = Flask(__name__)
     app.config["SECRET_KEY"] = SECRET_KEY
     app.config["GA_TRACKER_ID"] = GA_TRACKER_ID
+    app.config["THIS_YEAR"] = date.today().strftime("%Y")
 
     # https://flask-session.readthedocs.io/en/latest/
     # server-side sessions because data is too large to store in client side session:

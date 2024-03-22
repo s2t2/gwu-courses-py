@@ -32,7 +32,7 @@
 
                 <div class="mb-3">
                     <label for="year-input" class="form-label">Year:</label>
-                    <input id="year-input" class="form-control" type="text" name="year" placeholder="{{ default_year }}" value="{{ default_year }}">
+                    <input id="year-input" class="form-control" type="text" name="year" placeholder="{{ config['THIS_YEAR'] }}" value="{{ config['THIS_YEAR'] }}">
                 </div>
 
                 <!--div class="form-check">
@@ -62,12 +62,16 @@
     <script type="text/javascript">
 
         var searchButton = document.getElementById("search-button")
-        var termInput = document.getElementById("term-input")
+        //var termInput = document.getElementById("term-input")
+        var semesterInput = document.getElementById("semester-input")
+        var yearInput = document.getElementById("year-input")
         var subjectsInput = document.getElementById("subjects-input")
 
         function trackEvent(){
             var eventData = {
-                "term": termInput.value,
+                //"term": termInput.value,
+                "semester": semesterInput.value,
+                "year": yearInput.value,
                 "subjects": subjectsInput.value
             }
             console.log(eventData)

@@ -34,7 +34,7 @@ def search():
     print("REQUEST DATA:", request_data)
 
     try:
-        #term_id = request_data.get("term_id") or TERM_ID # app.config["DEFAULT_TERM"]
+        #term_id = request_data.get("term_id") or TERM_ID
         year = request_data.get("year") # "2024"
         semester_id = request_data.get("semester_id") # "01"
         term_id = f"{year}{semester_id}"
