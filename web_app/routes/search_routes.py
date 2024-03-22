@@ -3,7 +3,7 @@
 from flask import Blueprint, request, render_template, flash, redirect, Response, session
 from pandas import DataFrame
 
-from app.browser import TERM_ID
+#from app.browser import TERM_ID
 from app.multisubject import MultiSubjectBrowser
 
 search_routes = Blueprint("search_routes", __name__)
@@ -34,7 +34,11 @@ def search():
     print("REQUEST DATA:", request_data)
 
     try:
-        term_id = request_data.get("term_id") or TERM_ID # app.config["DEFAULT_TERM"]
+        #term_id = request_data.get("term_id") or TERM_ID # app.config["DEFAULT_TERM"]
+        year = request_data.get("year") # "2024"
+        semester_id = request_data.get("semester_id") # "01"
+        term_id = f"{year}{semester_id}"
+
         subject_ids = request_data.get("subject_ids")
 
         browser = MultiSubjectBrowser(term_id=term_id, subject_ids=subject_ids)

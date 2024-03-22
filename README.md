@@ -19,10 +19,13 @@ Installing Chromedriver (and Chrome Binary) on Mac:
 ```sh
 brew install chromedriver
 brew upgrade chromedriver
-brew install google-chrome
+#brew install google-chrome
+#brew upgrade google-chrome
 ```
 
 > NOTE: on Mac you need to also mark chromedriver as a trusted app from the Security and Privacy settings
+>
+> NOTE: if you see errors like "This version of ChromeDriver only supports Chrome version 119 Current browser version is 123.0.6312.58", then make sure to update / upgrade chromedriver, and also update the Security Privacy settings to use the new version
 
 ## Setup
 
