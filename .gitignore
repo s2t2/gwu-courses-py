@@ -10,6 +10,11 @@ google-credentials.json
 google-credentials-*.json
 
 
+data/*.csv
+
+# FOR NOW, until we verify the redaction on these pages:
+test/mock_dmap_pages/*.mhtml
+
 exports/*.csv
 exports/*/*.png
 exports/*/*/*.png
