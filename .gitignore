@@ -13,8 +13,8 @@ google-credentials-*.json
 data/*.csv
 
 # FOR NOW, until we verify the redaction on these pages:
-test/mock_dmap_pages/*.mhtml
-test/mock_dmap_pages/*.html
+test/mock_dmap/*.mhtml
+test/mock_dmap/*.html
 
 exports/*.csv
 exports/*/*.png
