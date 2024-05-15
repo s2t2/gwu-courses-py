@@ -3,7 +3,7 @@ import pytest
 
 from conftest import CI_ENV, DASHBOARD_1_FILEPATH, DASHBOARD_2_FILEPATH
 from app.html_helpers import read_and_parse_mhtml
-from app.dmap import parse_student_dashboard_page
+from app.dmap.honors_scraper import parse_student_dashboard_page
 
 
 @pytest.mark.skipif(CI_ENV, reason="Dashboard pages are ignored right now for privacy. Can remove skip once pages are more completely redacted.")
