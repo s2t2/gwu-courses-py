@@ -5,7 +5,7 @@ import os
 import pytest
 
 from conftest import CI_ENV, TEST_DIRPATH
-from app.html_helpers import read_and_parse_mhtml
+from app.dmap.html_helpers import read_and_parse_mhtml
 from app.dmap.dashboard_parser import DashboardParser
 
 SKIP_REASON = "Dashboard pages are ignored right now for privacy. Can remove skip once pages are more completely redacted."
