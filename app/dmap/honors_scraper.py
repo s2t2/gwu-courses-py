@@ -160,9 +160,12 @@ def get_all_students(driver, student_ids: List):
 if __name__ == "__main__":
 
 
+    DEPT = input("Input a department code (e.g. 'PSC'): ") or "PSC"
+
     print("---------------")
     print("READING STUDENT IDENTIFIERS FROM CSV...")
-    df = read_csv(os.path.join(DATA_DIRPATH, "psc_student_ids.csv"))
+    csv_filepath = os.path.join(DATA_DIRPATH, "dmap", f"{DEPT.lower()}_student_ids.csv")
+    df = read_csv(csv_filepath)
     print(df.head())
 
     student_ids = df["gwid"].tolist()

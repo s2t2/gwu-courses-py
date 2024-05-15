@@ -30,11 +30,11 @@ For now we will keep the files ignored. Will skip the tests on CI.
 
 ## Setup
 
-Obtain a list of GWID and save as CSV file "", where the header column name is "".
+Obtain a CSV file of student identifiers, and save it as "data/dmap/`DEPT`/student_ids.csv", where `DEPT` is the department abbreviation (e.g. "psc"). The expected header column name is "gwid". See an example file at "data/dmap/example_student_ids.csv".
 
 ## Usage
 
-Login to Degree Map as department admin, and visit all students pages, and export the result to CSV file (exports/_____.csv)
+Honors scraper will output a CSV file of results to "exports/dmap/`DEPT`/students.csv".
 
 ```sh
 python -m app.dmap.honors_scraper
