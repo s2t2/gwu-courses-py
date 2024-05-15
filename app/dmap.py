@@ -118,9 +118,8 @@ def parse_student_dashboard_page(page_source):
 def student_search(driver, student_id):
     # WAIT AND LOCATE:
     sleep(2)
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, 'studentSearch'))
-    )
+    wait = WebDriverWait(driver, 10)
+    wait.until(EC.presence_of_element_located((By.ID, 'studentSearch')))
     input_field = driver.find_element(By.ID, 'studentSearch')
     sleep(1)
 
@@ -134,8 +133,15 @@ def student_search(driver, student_id):
     input_field.send_keys(student_id)
     sleep(1)
     input_field.send_keys(Keys.ENTER)
-    sleep(2)
+    sleep(3)
     print(driver.title)
+
+    # WAIT FOR SOME CONTENT WE WANT TO PARSE LATER:
+    #"h2", "block-RA004062"
+    wait = WebDriverWait(driver, 10)
+    xpath = "//h2[span[contains(text(), 'Departmental/Special Honors')]]"
+    wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
+
     #return driver.page_source
 
 
@@ -178,25 +184,6 @@ if __name__ == "__main__":
 
     try:
 
-        #records = []
-
-        #student_id = student_ids[0]
-        ##student_search_from_homepage(driver, student_id)
-        #student_search(driver, student_id)
-        #record = parse_student_dashboard_page(driver.page_source)
-        #records.append(record)
-        #
-        #for student_id in student_ids[1:]:
-        #    #student_search_from_dashboard(driver, student_id)
-        #    student_search(driver, student_id)
-        #    record = parse_student_dashboard_page(driver.page_source)
-        #    records.append(record)
-
-        #for student_id in student_ids:
-        #    student_search(driver, student_id)
-        #    record = parse_student_dashboard_page(driver.page_source)
-        #    records.append(record)
-
         records = get_all_students(driver, student_ids)
         print("RETRIEVED INFO FOR", len(records), "STUDENTS")
 
@@ -211,25 +198,25 @@ if __name__ == "__main__":
 
         # we are seeing an initial fail, so we need to run the code manually, but that works
 
-        records = get_all_students(driver, student_ids[0:25])
-        exports_df = DataFrame(records)
-        exports_df.to_csv(os.path.join(EXPORTS_DIRPATH, "student_honors_0_25.csv"), index=False)
-        # DONE
+        #records = get_all_students(driver, student_ids[0:25])
+        #exports_df = DataFrame(records)
+        #exports_df.to_csv(os.path.join(EXPORTS_DIRPATH, "student_honors_0_25.csv"), index=False)
+        ## DONE
+        #records = get_all_students(driver, student_ids[25:75])
+        #exports_df = DataFrame(records)
+        #exports_df.to_csv(os.path.join(EXPORTS_DIRPATH, "student_honors_25_75.csv"), index=False)
+        ## DONE
+        #records = get_all_students(driver, student_ids[75:175])
+        #exports_df = DataFrame(records)
+        #exports_df.to_csv(os.path.join(EXPORTS_DIRPATH, "student_honors_75_175.csv"), index=False)
+        ## DONE
+        #records = get_all_students(driver, student_ids[175:])
+        #exports_df = DataFrame(records)
+        #exports_df.to_csv(os.path.join(EXPORTS_DIRPATH, "student_honors_175_end.csv"), index=False)
+        ## DONE
 
-        records = get_all_students(driver, student_ids[25:75])
+        records = get_all_students(driver, student_ids)
         exports_df = DataFrame(records)
-        exports_df.to_csv(os.path.join(EXPORTS_DIRPATH, "student_honors_25_75.csv"), index=False)
-        # DONE
-
-        records = get_all_students(driver, student_ids[75:175])
-        exports_df = DataFrame(records)
-        exports_df.to_csv(os.path.join(EXPORTS_DIRPATH, "student_honors_75_175.csv"), index=False)
-        # _________
-
-        records = get_all_students(driver, student_ids[175:])
-        exports_df = DataFrame(records)
-        exports_df.to_csv(os.path.join(EXPORTS_DIRPATH, "student_honors_175_end.csv"), index=False)
-        # _________
-
+        exports_df.to_csv(os.path.join(EXPORTS_DIRPATH, "student_honors.csv"), index=False)
 
     driver.quit()
