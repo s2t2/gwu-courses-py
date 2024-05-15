@@ -146,7 +146,7 @@ def student_search(driver, student_id):
 
 
 
-def get_all_students(driver, student_ids: List):
+def browse_all_students(driver, student_ids: List):
     records = []
     for i, student_id in enumerate(student_ids):
         print("STUDENT:", i)
@@ -159,47 +159,55 @@ def get_all_students(driver, student_ids: List):
 
 if __name__ == "__main__":
 
-
-    DEPT = input("Input a department code (e.g. 'PSC'): ") or "PSC"
+    DEPT = os.getenv("DEPT") or input("Input a department code (e.g. 'PSC'): ") or "PSC"
+    csv_filepath = os.path.join(DATA_DIRPATH, "dmap", DEPT.upper(), "student_ids.csv")
+    exports_filepath = os.path.join(EXPORTS_DIRPATH, DEPT.upper(), "student_honors.csv")
 
     print("---------------")
     print("READING STUDENT IDENTIFIERS FROM CSV...")
-    csv_filepath = os.path.join(DATA_DIRPATH, "dmap", f"{DEPT.lower()}_student_ids.csv")
     df = read_csv(csv_filepath)
     print(df.head())
 
     student_ids = df["gwid"].tolist()
+    print("STUDENTS:", len(student_ids))
 
     print("---------------")
     print("NAVIGATING DEGREE MAP...")
-    #driver = create_driver(profile_path=CHROME_PROFILE_PATH, headless=False)
     driver = create_driver(headless=False)
+    #driver = create_driver(profile_path=CHROME_PROFILE_PATH, headless=False)
 
     request_url = "https://degreemap.gwu.edu/worksheets/WEB31"
     driver.get(request_url)
     # since this is in non headless mode, we can manually sign in and provide the 2fa code
     # unfortunately this does not use the logged in user info from the browser profile?
     print(driver.title) #> 'DegreeMAP Dashboard'
-    sleep(3)
-
+    sleep(5)
+    #breakpoint()
     #soup = BeautifulSoup(driver.page_source, "html.parser")
     #parse_student_dashboard_page(driver.page_source)
 
     try:
 
-        records = get_all_students(driver, student_ids)
-        print("RETRIEVED INFO FOR", len(records), "STUDENTS")
+        records = browse_all_students(driver, student_ids)
+        print("RECORDS:", len(records))
 
         print("---------------")
         print("SAVING RECORDS TO CSV...")
         exports_df = DataFrame(records)
-        exports_df.to_csv(os.path.join(EXPORTS_DIRPATH, "student_honors.csv"), index=False)
+        exports_df.to_csv(exports_filepath, index=False)
 
     except Exception as err:
         print("ERROR:", err)
+        # we are seeing an initial fail, so we need to run the code manually, but that works
         breakpoint()
 
-        # we are seeing an initial fail, so we need to run the code manually, but that works
+        records = browse_all_students(driver, student_ids)
+        print("RECORDS:", len(records))
+
+        print("---------------")
+        print("SAVING RECORDS TO CSV...")
+        exports_df = DataFrame(records)
+        exports_df.to_csv(exports_filepath, index=False)
 
         #records = get_all_students(driver, student_ids[0:25])
         #exports_df = DataFrame(records)
@@ -218,8 +226,5 @@ if __name__ == "__main__":
         #exports_df.to_csv(os.path.join(EXPORTS_DIRPATH, "student_honors_175_end.csv"), index=False)
         ## DONE
 
-        records = get_all_students(driver, student_ids)
-        exports_df = DataFrame(records)
-        exports_df.to_csv(os.path.join(EXPORTS_DIRPATH, "student_honors.csv"), index=False)
 
     driver.quit()
