@@ -1,11 +1,10 @@
 
-from pprint import pprint
 from functools import cached_property
-from datetime import datetime
 from typing import List, Dict
+#from datetime import datetime
+#from pprint import pprint
 
 from bs4 import BeautifulSoup
-
 
 class DashboardParser:
 
@@ -17,7 +16,7 @@ class DashboardParser:
     def soup(self):
         return BeautifulSoup(self.page_source, "html.parser")
 
-    @property
+    @cached_property
     def student_id(self):
         try:
             gwid_input = self.soup.find('input', {'id': 'studentSearch'})
@@ -26,14 +25,14 @@ class DashboardParser:
         except:
             return None
 
-    @property
+    @cached_property
     def student_name(self):
         try:
             return self.soup.find('input', {'id': 'student-name'})["value"]
         except:
             return None
 
-    @property
+    @cached_property
     def headings(self):
         return self.soup.find_all("h2")
 
