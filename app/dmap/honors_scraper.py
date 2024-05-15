@@ -50,18 +50,22 @@ def parse_student_dashboard_page(page_source):
     except:
         student_name = None
 
-    try:
-        gpa_span = soup.find('span', string='Block GPA:')
-        gpa_div = gpa_span.parent
-        gpa_text = gpa_div.text.strip()
-        major_gpa = gpa_text.replace('Block GPA:', '').strip()
-    except:
-        major_gpa = None
+    major_gpa = None
+    #try:
+    #    gpa_span = soup.find('span', string='Block GPA:')
+    #    gpa_div = gpa_span.parent
+    #    gpa_text = gpa_div.text.strip()
+    #    major_gpa = gpa_text.replace('Block GPA:', '').strip()
+    #except:
+    #    major_gpa = None
 
-    try:
-        honors_status = soup.find("span", id="RA004062_statusLabel").text.strip()
-    except:
-        honors_status = None
+    honors_status = None
+    #try:
+    #    honors_status = soup.find("span", id="RA004062_statusLabel").text.strip()
+    #except:
+    #    honors_status = None
+
+    breakpoint()
 
     return {
         "gwid": student_id,
