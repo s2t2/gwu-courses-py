@@ -1,4 +1,6 @@
 
+from pprint import pprint
+
 import pytest
 
 from conftest import CI_ENV, DASHBOARD_1_FILEPATH, DASHBOARD_2_FILEPATH
@@ -20,53 +22,66 @@ def dashboard_2_source():
 
 
 @pytest.mark.skipif(CI_ENV, reason=SKIP_REASON)
-def test_headings(dashboard_1_source, dashboard_2_source):
+def test_heading_records(dashboard_1_source, dashboard_2_source):
     parser = DashboardParser(dashboard_1_source)
-    #breakpoint()
-    #assert parser.headings == [
-    #    'Bachelor of Arts Degree', # IN-PROGRESS
-    #    'Writing in the Disciplines Requirement', # COMPLETE
-    #    'University General Education Requirements', # COMPLETE
-    #    'Columbian College General Education Curriculum', # IN-PROGRESS
-    #    'Major in Political Science', # IN-PROGRESS
-    #    'Major in Criminal Justice', # IN-PROGRESS
-    #    'Departmental/Special Honors', # INCOMPLETE
-    #    'Fall Through General Electives',
-    #    'In-progress',
-    #    'Not Counted'
-    #]
     assert parser.heading_records == [
-        {'title': 'Bachelor of Arts Degree', 'status': 'IN-PROGRESS'},
-        {'title': 'Writing in the Disciplines Requirement', 'status': 'COMPLETE'},
-        {'title': 'University General Education Requirements', 'status': 'COMPLETE'},
-        {'title': 'Columbian College General Education Curriculum', 'status': 'IN-PROGRESS'},
-        {'title': 'Major in Political Science', 'status': 'IN-PROGRESS'},
-        {'title': 'Major in Criminal Justice', 'status': 'IN-PROGRESS'},
-        {'title': 'Departmental/Special Honors', 'status': 'INCOMPLETE'}
+        {
+            'student_id': 'G11111111', 'student_name': 'LAST_NAME_1, FIRST_NAME_1 MIDDLE_NAME_1',
+            'title': 'Bachelor of Arts Degree', 'status': 'IN-PROGRESS', 'gpa': '3.63'
+        },
+        {
+            'student_id': 'G11111111', 'student_name': 'LAST_NAME_1, FIRST_NAME_1 MIDDLE_NAME_1',
+            'title': 'Writing in the Disciplines Requirement', 'status': 'COMPLETE', 'gpa': '3.79'
+        },
+        {
+            'student_id': 'G11111111', 'student_name': 'LAST_NAME_1, FIRST_NAME_1 MIDDLE_NAME_1',
+            'title': 'University General Education Requirements', 'status': 'COMPLETE', 'gpa': '3.39'
+        },
+        {
+            'student_id': 'G11111111', 'student_name': 'LAST_NAME_1, FIRST_NAME_1 MIDDLE_NAME_1',
+            'title': 'Columbian College General Education Curriculum', 'status': 'IN-PROGRESS', 'gpa': '4.00'
+        },
+        {
+            'student_id': 'G11111111', 'student_name': 'LAST_NAME_1, FIRST_NAME_1 MIDDLE_NAME_1',
+            'title': 'Major in Political Science', 'status': 'IN-PROGRESS', 'gpa': '3.40'
+        },
+        {
+            'student_id': 'G11111111', 'student_name': 'LAST_NAME_1, FIRST_NAME_1 MIDDLE_NAME_1',
+            'title': 'Major in Criminal Justice', 'status': 'IN-PROGRESS', 'gpa': '3.74'
+        },
+        {
+            'student_id': 'G11111111', 'student_name': 'LAST_NAME_1, FIRST_NAME_1 MIDDLE_NAME_1',
+            'title': 'Departmental/Special Honors', 'status': 'INCOMPLETE', 'gpa': '3.43'
+        }
     ]
 
     parser = DashboardParser(dashboard_2_source)
-    #breakpoint()
-    #assert parser.headings == [
-    #    'Bachelor of Arts Degree', # IN-PROGRESS
-    #    'Writing in the Disciplines Requirement', # COMPLETE
-    #    'University General Education Requirements', # COMPLETE
-    #    'Columbian College General Education Curriculum', # IN-PROGRESS
-    #    'Major in Political Science', # IN-PROGRESS
-    #    'Major in Criminal Justice', # IN-PROGRESS
-    #    'Departmental/Special Honors', # INCOMPLETE
-    #    'Fall Through General Electives',
-    #    'In-progress',
-    #    'Not Counted'
-    #]
     assert parser.heading_records == [
-        {'title': 'Bachelor of Arts Degree', 'status': 'IN-PROGRESS'},
-        {'title': 'Writing in the Disciplines Requirement', 'status': 'COMPLETE'},
-        {'title': 'University General Education Requirements', 'status': 'COMPLETE'},
-        {'title': 'Columbian College General Education Curriculum', 'status': 'COMPLETE'},
-        {'title': 'Major in Political Science', 'status': 'COMPLETE'},
-        {'title': 'Minor in Span/LatAm Langs,Lits,Cultures', 'status': 'IN-PROGRESS'},
-        {'title': "Minor in Women's, Gender, and Sexuality Studies", 'status': 'COMPLETE'},
-        {'title': 'Honors Program', 'status': 'IN-PROGRESS'},
-        {'title': 'Departmental/Special Honors', 'status': 'COMPLETE'}
+        {
+            'student_id': 'G22222222', 'student_name': 'LAST_NAME_2, FIRST_NAME_2 MIDDLE_INITIAL_2',
+            'title': 'Bachelor of Arts Degree', 'status': 'IN-PROGRESS', 'gpa': '3.95'},
+        {
+            'student_id': 'G22222222', 'student_name': 'LAST_NAME_2, FIRST_NAME_2 MIDDLE_INITIAL_2',
+            'title': 'Writing in the Disciplines Requirement', 'status': 'COMPLETE', 'gpa': '3.91'},
+        {
+            'student_id': 'G22222222', 'student_name': 'LAST_NAME_2, FIRST_NAME_2 MIDDLE_INITIAL_2',
+            'title': 'University General Education Requirements', 'status': 'COMPLETE', 'gpa': '3.91'},
+        {
+            'student_id': 'G22222222', 'student_name': 'LAST_NAME_2, FIRST_NAME_2 MIDDLE_INITIAL_2',
+            'title': 'Columbian College General Education Curriculum', 'status': 'COMPLETE', 'gpa': '4.00'},
+        {
+            'student_id': 'G22222222', 'student_name': 'LAST_NAME_2, FIRST_NAME_2 MIDDLE_INITIAL_2',
+            'title': 'Major in Political Science', 'status': 'COMPLETE', 'gpa': '3.97'},
+        {
+            'student_id': 'G22222222', 'student_name': 'LAST_NAME_2, FIRST_NAME_2 MIDDLE_INITIAL_2',
+            'title': 'Minor in Span/LatAm Langs,Lits,Cultures', 'status': 'IN-PROGRESS', 'gpa': '3.90'},
+        {
+            'student_id': 'G22222222', 'student_name': 'LAST_NAME_2, FIRST_NAME_2 MIDDLE_INITIAL_2',
+            'title': "Minor in Women's, Gender, and Sexuality Studies", 'status': 'COMPLETE', 'gpa': '4.00'},
+        {
+            'student_id': 'G22222222', 'student_name': 'LAST_NAME_2, FIRST_NAME_2 MIDDLE_INITIAL_2',
+            'title': 'Honors Program', 'status': 'IN-PROGRESS', 'gpa': '3.91'},
+        {
+            'student_id': 'G22222222', 'student_name': 'LAST_NAME_2, FIRST_NAME_2 MIDDLE_INITIAL_2',
+            'title': 'Departmental/Special Honors', 'status': 'COMPLETE', 'gpa': '3.95'}
     ]
