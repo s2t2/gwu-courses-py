@@ -13,7 +13,6 @@ class DashboardParser:
         self.page_source = page_source
         #self.accessed_at = datetime.now()
 
-
     @cached_property
     def soup(self):
         return BeautifulSoup(self.page_source, "html.parser")
@@ -22,9 +21,7 @@ class DashboardParser:
     def student_id(self):
         try:
             gwid_input = self.soup.find('input', {'id': 'studentSearch'})
-            if not gwid_input:
-                gwid_input = self.soup.find('input', id="student-id")
-
+            gwid_input = gwid_input or self.soup.find('input', id="student-id")
             return gwid_input["value"]
         except:
             return None
@@ -40,7 +37,7 @@ class DashboardParser:
     def headings(self):
         return self.soup.find_all("h2")
 
-    @property
+    @cached_property
     def heading_records(self) -> List[Dict]:
         """Only get headings that have two spans.
             Based on observation, one is the heading and the other is the status badge.
@@ -60,7 +57,7 @@ class DashboardParser:
                 gpa = None
                 try:
                     label_span = heading.parent.find("span", string='Block GPA:')
-                    gpa = label_span.parent.text.replace("Block GPA: ","")
+                    gpa = label_span.parent.text.replace("Block GPA: ","").strip()
                 except:
                     try:
                         gpa = heading.parent.text.split("Block GPA: ")[-1].strip()
