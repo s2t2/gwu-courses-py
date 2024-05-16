@@ -1,10 +1,9 @@
 
-import os
+#import os
 from typing import List
 from time import sleep
 
-#from bs4 import BeautifulSoup
-from pandas import read_csv, DataFrame, concat
+from pandas import DataFrame, concat
 
 #from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -14,7 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 #from selenium.webdriver.chrome.service import Service
 #from webdriver_manager.chrome import ChromeDriverManager
 
-from app import DATA_DIRPATH, EXPORTS_DIRPATH
+#from app import DATA_DIRPATH, EXPORTS_DIRPATH
 from app.driver import create_driver
 from app.dmap.dashboard_parser import DashboardParser
 
@@ -24,25 +23,25 @@ class User:
     def __init__(self, driver=None):
         self.driver = driver or create_driver(headless=False) # profile_path=CHROME_PROFILE_PATH
 
-    def login(self, driver=None):
+    def login(self):
         """Manual Login. Requires user sitting at the computer."""
         #driver = driver or self.driver
 
         print("---------------")
         print("VISITING DEGREE MAP...")
         request_url = "https://degreemap.gwu.edu/worksheets/WEB31"
+        print(request_url)
         self.driver.get(request_url)
         # since this is in non headless mode, we can manually sign in and provide the 2fa code
-        # unfortunately this does not use the logged in user info from the browser profile?
-        sleep(20)
-
-
-
+        # give us enough time to do all these things:
+        if not self.logged_in:
+            print("TIME FOR YOU TO LOGIN PLEASE...")
+            sleep(30)
+        print(self.driver.title)
 
     @property
     def logged_in(self):
         return bool(self.driver.title == 'DegreeMAP Dashboard')
-
 
 
 class Student(User):
@@ -50,57 +49,74 @@ class Student(User):
         super().__init__(driver=driver)
         self.parser = None
 
-    #def login(self):
-    #    super().login()
-    #    # WAIT FOR SOME CONTENT WE WANT TO PARSE LATER:
-    #    #wait = WebDriverWait(self.driver, 10)
-    #    #xpath = "//h2[span[contains(text(), 'Fall Through General Electives')]]"
-    #    #wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
-    #
-    #    #wait = WebDriverWait(self.driver, 15)
-    #    #xpath = "//h2[span[contains(text(), 'In-progress')]]"
-    #    #wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
-    #
-    #    #wait = WebDriverWait(self.driver, 10)
-    #    #xpath = "//h2[span[contains(text(), 'Not Counted')]]"
-    #    #wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
-    #
-    #    #sleep(5)
-    #    #print("LOGGED IN:", self.logged_in)
-    #    #sleep(5)
-        #self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
     def parse_dashboard(self):
-        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        if not self.logged_in:
+            self.login()
+
         sleep(3)
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        sleep(2)
+
         self.parser = DashboardParser(self.driver.page_source)
         df = self.parser.df
+
         df.index.name = "row_num"
         df.index += 1
         return df
 
 
-if __name__ == "__main__":
+class StudentAdvisor(User):
 
-    exports_filepath = os.path.join(EXPORTS_DIRPATH, "dmap", "student.csv")
+    def __init__(self, student_ids:List[str], driver=None):
+        super().__init__(driver=driver)
+        self.student_ids = student_ids
 
-    browser = Student()
-    try:
-        browser.login()
-        df = browser.parse_dashboard()
-        print(df.head())
-        df.to_csv(exports_filepath)
-    except Exception as err:
-        print("ERROR:", err)
-        #breakpoint()
+    def parse_dashboards(self):
+        if not self.logged_in:
+            self.login()
 
-        try:
-            browser.login()
-            df = browser.parse_dashboard()
-            print(df.head())
-            df.to_csv(exports_filepath)
-        except Exception as err:
-            print("ERROR 2:", err)
-            breakpoint()
+        df = DataFrame()
+        for i, student_id in enumerate(self.student_ids):
+            print("STUDENT:", i)
+            self.search_student(student_id=student_id) #, driver=driver)
 
-    browser.driver.quit()
+            sleep(3)
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            sleep(2)
+
+            parser = DashboardParser(self.driver.page_source)
+            concat([df, parser.df])
+
+        df.index.name = "row_num"
+        df.index += 1
+        return df
+
+    def search_student(self, student_id):
+
+        # WAIT AND LOCATE:
+        sleep(2)
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.presence_of_element_located((By.ID, 'studentSearch')))
+
+        input_field = self.driver.find_element(By.ID, 'studentSearch')
+        sleep(1)
+
+        # CLEAR:
+        input_field.clear()
+        # ACTUALLY CLEAR:
+        clear_button = self.driver.find_element(By.ID, 'studentSearch_Adornment')
+        clear_button.click()
+        sleep(1)
+
+        # INPUT:
+        input_field.send_keys(student_id)
+        sleep(1)
+        input_field.send_keys(Keys.ENTER)
+        sleep(3)
+        print(self.driver.title)
+
+        # WAIT FOR SOME CONTENT WE WANT TO PARSE LATER:
+        #"h2", "block-RA004062"
+        wait = WebDriverWait(self.driver, 10)
+        xpath = "//h2[span[contains(text(), 'Departmental/Special Honors')]]"
+        wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
