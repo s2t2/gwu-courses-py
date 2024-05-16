@@ -5,6 +5,7 @@ from typing import List, Dict
 #from pprint import pprint
 
 from bs4 import BeautifulSoup
+from pandas import DataFrame
 
 class DashboardParser:
 
@@ -37,7 +38,7 @@ class DashboardParser:
         return self.soup.find_all("h2")
 
     @cached_property
-    def heading_records(self) -> List[Dict]:
+    def records(self) -> List[Dict]:
         """Only get headings that have two spans.
             Based on observation, one is the heading and the other is the status badge.
 
@@ -73,3 +74,7 @@ class DashboardParser:
                 })
 
         return records
+
+    @property
+    def df(self):
+        return DataFrame(self.records)

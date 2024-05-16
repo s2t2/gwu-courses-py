@@ -99,3 +99,19 @@ def test_heading_records(dashboard_1_source, dashboard_2_source):
             'student_id': 'G22222222', 'student_name': 'LAST_NAME_2, FIRST_NAME_2 MIDDLE_INITIAL_2',
             'title': 'Departmental/Special Honors', 'status': 'COMPLETE', 'gpa': '3.95'}
     ]
+
+
+@pytest.mark.skipif(CI_ENV, reason=SKIP_REASON)
+def test_headings_df(dashboard_1_source, dashboard_2_source):
+
+    headers = ["student_id", "student_name", "title", "status", "gpa"]
+
+    parser = DashboardParser(dashboard_1_source)
+    df = parser.headings_df
+    assert df.columns.tolist() == headers
+    assert len(df) == 7
+
+    parser = DashboardParser(dashboard_2_source)
+    df = parser.headings_df
+    assert df.columns.tolist() == headers
+    assert len(df) == 9
