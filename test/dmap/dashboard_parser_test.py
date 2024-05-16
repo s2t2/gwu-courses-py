@@ -38,7 +38,7 @@ def test_student_info(dashboard_1_source, dashboard_2_source):
 @pytest.mark.skipif(CI_ENV, reason=SKIP_REASON)
 def test_heading_records(dashboard_1_source, dashboard_2_source):
     parser = DashboardParser(dashboard_1_source)
-    assert parser.heading_records == [
+    assert parser.records == [
         {
             'student_id': 'G11111111', 'student_name': 'LAST_NAME_1, FIRST_NAME_1 MIDDLE_NAME_1',
             'title': 'Bachelor of Arts Degree', 'status': 'IN-PROGRESS', 'gpa': '3.63'
@@ -70,7 +70,7 @@ def test_heading_records(dashboard_1_source, dashboard_2_source):
     ]
 
     parser = DashboardParser(dashboard_2_source)
-    assert parser.heading_records == [
+    assert parser.records == [
         {
             'student_id': 'G22222222', 'student_name': 'LAST_NAME_2, FIRST_NAME_2 MIDDLE_INITIAL_2',
             'title': 'Bachelor of Arts Degree', 'status': 'IN-PROGRESS', 'gpa': '3.95'},
@@ -107,11 +107,11 @@ def test_headings_df(dashboard_1_source, dashboard_2_source):
     headers = ["student_id", "student_name", "title", "status", "gpa"]
 
     parser = DashboardParser(dashboard_1_source)
-    df = parser.headings_df
+    df = parser.df
     assert df.columns.tolist() == headers
     assert len(df) == 7
 
     parser = DashboardParser(dashboard_2_source)
-    df = parser.headings_df
+    df = parser.df
     assert df.columns.tolist() == headers
     assert len(df) == 9
