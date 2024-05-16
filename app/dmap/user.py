@@ -85,7 +85,7 @@ class StudentAdvisor(User):
             sleep(2)
 
             parser = DashboardParser(self.driver.page_source)
-            concat([df, parser.df])
+            concat([df, parser.df], ignore_index=True)
 
         df.index.name = "row_num"
         df.index += 1
