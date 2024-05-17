@@ -1,20 +1,15 @@
 
-#import os
 from typing import List
 from time import sleep
 
 from pandas import DataFrame, concat
 
-#from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-#from selenium.webdriver.chrome.service import Service
-#from webdriver_manager.chrome import ChromeDriverManager
 
-#from app import DATA_DIRPATH, EXPORTS_DIRPATH
 from app.driver import create_driver
 from app.dmap.dashboard_parser import DashboardParser
 
@@ -24,20 +19,16 @@ class User:
     def __init__(self, driver=None):
         self.driver = driver or create_driver(headless=False) # profile_path=CHROME_PROFILE_PATH
 
-    def login(self):
+    def login(self, request_url="https://degreemap.gwu.edu/worksheets/WEB31", max_retries=3):
         """Manual Login. Requires user sitting at the computer."""
-        #driver = driver or self.driver
-
         print("---------------")
         print("VISITING DEGREE MAP...")
-        request_url = "https://degreemap.gwu.edu/worksheets/WEB31"
         print(request_url)
         self.driver.get(request_url)
+
         # since this is in non headless mode, we can manually sign in and provide the 2fa code
         # give us enough time to do all these things:
         retries = 0
-        max_retries = 3
-
         while not self.logged_in and retries <= max_retries:
             print("TIME FOR YOU TO LOGIN PLEASE...")
             sleep(15)
@@ -74,7 +65,6 @@ class StudentAdvisor(User):
 
     def __init__(self, driver=None):
         super().__init__(driver=driver)
-        #self.student_ids = student_ids
 
         self.dashboards_df = DataFrame()
 
@@ -83,15 +73,9 @@ class StudentAdvisor(User):
         if not self.logged_in:
             self.login()
 
-        #self.dashboards_df = DataFrame()
         for i, student_id in enumerate(student_ids):
             print("STUDENT:", i)
-            self.search_student(student_id=student_id) #, driver=driver)
-
-            # scrolling causes issues with clicking later
-            #sleep(4)
-            #self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            #sleep(2)
+            self.search_student(student_id=student_id)
 
             parser = DashboardParser(self.driver.page_source)
             self.dashboards_df = concat([self.dashboards_df, parser.df], ignore_index=True)
@@ -101,8 +85,6 @@ class StudentAdvisor(User):
         return self.dashboards_df
 
     def search_student(self, student_id):
-
-        #driver = self.driver
 
         # WAIT AND LOCATE:
         sleep(3)
@@ -126,18 +108,12 @@ class StudentAdvisor(User):
         sleep(3)
         print(self.driver.title)
 
-        # WAIT FOR SOME CONTENT WE WANT TO PARSE LATER:
-        #"h2", "block-RA004062"
-        #wait = WebDriverWait(self.driver, 10)
-        #xpath = "//h2[span[contains(text(), 'Departmental/Special Honors')]]"
-        #wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
-
+        # WAIT FOR SOME CONTENT WE WANT TO PARSE LATER
+        # ... (IF IT EXISTS, OTHERWISE CONTINUE):
         try:
             wait = WebDriverWait(self.driver, 10)
             xpath = "//h2[span[contains(text(), 'Departmental/Special Honors')]]"
             wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
-            # Add your logic here if the element is found
         except TimeoutException as err:
             print("ERR:", err)
-            # Handle the case where the element is not found
-            print("Element not found, continuing gracefully...")
+            print("CONTINUING...")

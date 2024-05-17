@@ -56,5 +56,6 @@ For each mock student dashboard, we took the following redaction measures:
   + We redacted the student's first name, last name, and GWID.
   + We redacted the admin's name in the top navbar.
   + We changed / obscured the GPA values.
+  + We changed / obscured some of the majors and minors.
 
 Because there is some additional potential PII in the files that would need to be further redacted (such as unique sequence of courses taken, as well as specific advisor information), for now we will keep the original files ignored from version control (see ".gitignore"). And we will skip the corresponding tests on CI.

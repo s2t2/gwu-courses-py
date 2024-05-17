@@ -20,13 +20,4 @@ if __name__ == "__main__":
         print("ERROR:", err)
         breakpoint()
 
-        #try:
-        #    browser.login()
-        #    df = browser.parse_dashboard()
-        #    print(df.head())
-        #    df.to_csv(exports_filepath)
-        #except Exception as err:
-        #    print("ERROR 2:", err)
-        #    breakpoint()
-
     browser.driver.quit()
