@@ -6,6 +6,7 @@ from time import sleep
 from pandas import DataFrame, concat
 
 #from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -34,9 +35,13 @@ class User:
         self.driver.get(request_url)
         # since this is in non headless mode, we can manually sign in and provide the 2fa code
         # give us enough time to do all these things:
-        if not self.logged_in:
+        retries = 0
+        max_retries = 3
+
+        while not self.logged_in and retries <= max_retries:
             print("TIME FOR YOU TO LOGIN PLEASE...")
-            sleep(30)
+            sleep(15)
+            retries +=1
         print(self.driver.title)
 
     @property
@@ -67,34 +72,40 @@ class Student(User):
 
 class StudentAdvisor(User):
 
-    def __init__(self, student_ids:List[str], driver=None):
+    def __init__(self, driver=None):
         super().__init__(driver=driver)
-        self.student_ids = student_ids
+        #self.student_ids = student_ids
 
-    def parse_dashboards(self):
+        self.dashboards_df = DataFrame()
+
+
+    def parse_dashboards(self, student_ids:List[str]):
         if not self.logged_in:
             self.login()
 
-        df = DataFrame()
-        for i, student_id in enumerate(self.student_ids):
+        #self.dashboards_df = DataFrame()
+        for i, student_id in enumerate(student_ids):
             print("STUDENT:", i)
             self.search_student(student_id=student_id) #, driver=driver)
 
-            sleep(3)
-            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            sleep(2)
+            # scrolling causes issues with clicking later
+            #sleep(4)
+            #self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            #sleep(2)
 
             parser = DashboardParser(self.driver.page_source)
-            concat([df, parser.df], ignore_index=True)
+            self.dashboards_df = concat([self.dashboards_df, parser.df], ignore_index=True)
 
-        df.index.name = "row_num"
-        df.index += 1
-        return df
+        self.dashboards_df.index.name = "row_num"
+        self.dashboards_df.index += 1
+        return self.dashboards_df
 
     def search_student(self, student_id):
 
+        #driver = self.driver
+
         # WAIT AND LOCATE:
-        sleep(2)
+        sleep(3)
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.presence_of_element_located((By.ID, 'studentSearch')))
 
@@ -117,6 +128,16 @@ class StudentAdvisor(User):
 
         # WAIT FOR SOME CONTENT WE WANT TO PARSE LATER:
         #"h2", "block-RA004062"
-        wait = WebDriverWait(self.driver, 10)
-        xpath = "//h2[span[contains(text(), 'Departmental/Special Honors')]]"
-        wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
+        #wait = WebDriverWait(self.driver, 10)
+        #xpath = "//h2[span[contains(text(), 'Departmental/Special Honors')]]"
+        #wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
+
+        try:
+            wait = WebDriverWait(self.driver, 10)
+            xpath = "//h2[span[contains(text(), 'Departmental/Special Honors')]]"
+            wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
+            # Add your logic here if the element is found
+        except TimeoutException as err:
+            print("ERR:", err)
+            # Handle the case where the element is not found
+            print("Element not found, continuing gracefully...")

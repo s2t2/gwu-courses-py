@@ -6,7 +6,7 @@ import email
 # ... normally we would be reading the HTML page source stright from the web driver (driver.page_source)
 # ... however we are not easily able to login using an admin account
 # ... so instead of testing against a live web driver,
-# ... we have saved some page contents locally (refacting pii as necessary)
+# ... we have saved some page contents locally (redacting pii as necessary)
 # ... we can use these mock pages for testing the page parsing functionality
 #
 

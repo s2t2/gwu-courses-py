@@ -29,6 +29,8 @@ Run the scraper:
 
 ```sh
 python -m app.dmap.advisor
+
+DEPT="PSC" python -m app.dmap.advisor
 ```
 
 This will export the degree requirement info for all students to "exports/dmap/`DEPT`/student_dashboards.csv".
