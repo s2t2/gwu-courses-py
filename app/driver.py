@@ -14,9 +14,12 @@ load_dotenv()
 CHROMEDRIVER_PATH = os.getenv("CHROMEDRIVER_PATH", default="/usr/local/bin/chromedriver")
 CHROME_BINARY_PATH = os.getenv("CHROME_BINARY_PATH") # specify path where chrome binary is installed, as necessary (see "build.sh")
 HEADLESS_MODE = bool(os.getenv("HEADLESS_MODE", default="false") == "true")
+#CHROME_PROFILE_PATH = os.getenv("CHROME_PROFILE_PATH", default="/path/to/your/chrome/profile") # "/Users/USERNAME/Library/Application Support/Google/Chrome/Profile 4"
 
 
-def create_driver(headless=HEADLESS_MODE, chromedriver_path=CHROMEDRIVER_PATH, binary_location=CHROME_BINARY_PATH):
+def create_driver(headless=HEADLESS_MODE, chromedriver_path=CHROMEDRIVER_PATH, binary_location=CHROME_BINARY_PATH, profile_path=None):
+
+    service = Service(executable_path=chromedriver_path)
 
     options = webdriver.ChromeOptions()
 
@@ -34,7 +37,10 @@ def create_driver(headless=HEADLESS_MODE, chromedriver_path=CHROMEDRIVER_PATH, b
 
     #return webdriver.Chrome(chromedriver_path, options=options)
 
-    service = Service(executable_path=chromedriver_path)
+    if profile_path:
+        print("USING CHROME PROFILE:", profile_path)
+        options.add_argument(f"user-data-dir={profile_path}")
+
     return webdriver.Chrome(service=service, options=options)
 
 

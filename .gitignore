@@ -10,6 +10,17 @@ google-credentials.json
 google-credentials-*.json
 
 
+data/*.csv
+data/dmap/*.csv
+data/dmap/*/*.csv
+!data/dmap/example_student_ids.csv
+
+# FOR NOW, until we verify the redaction on these pages:
+test/mock_dmap/*.mhtml
+test/mock_dmap/*.html
+#!test/mock_dmap/dashboard-1-redacted.mhtml
+#!test/mock_dmap/dashboard-2-redacted.mhtml
+
 exports/*.csv
 exports/*/*.png
 exports/*/*/*.png
@@ -17,7 +28,7 @@ exports/*/*.html
 exports/*/*/*.html
 exports/*/*.csv
 exports/*/*/*.csv
-
+exports/dmap/*/*.csv
 
 flask_session
 flask_session/*
