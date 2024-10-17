@@ -17,10 +17,13 @@ Gives you a CSV file of courses in a given subject, based on your filter criteri
 Installing Chromedriver (and Chrome Binary) on Mac:
 
 ```sh
+# chromedriver:
 brew install chromedriver
 brew upgrade chromedriver
-#brew install google-chrome
-#brew upgrade google-chrome
+
+# chrome binary:
+brew install google-chrome
+brew upgrade google-chrome
 ```
 
 > NOTE: on Mac you need to also mark chromedriver as a trusted app from the Security and Privacy settings
