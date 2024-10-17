@@ -76,7 +76,11 @@ if __name__ == "__main__":
 
     browser = BetterBrowser()
 
-    courses_df = browser.parse_pages()
+    #breakpoint()
 
+    courses = browser.process_pages()
+    #print(courses_df[0:10])
+
+    courses_df = DataFrame(courses)
     print(len(courses_df))
     print(courses_df.head())

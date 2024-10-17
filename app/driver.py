@@ -43,6 +43,8 @@ if __name__ == "__main__":
     driver = create_driver()
     print(driver)
 
-    #driver.get("https://google.com")
+    driver.get("https://gwcoders.github.io/studyGroup/")
 
     breakpoint()
+
+    driver.quit()
